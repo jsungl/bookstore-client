@@ -6,11 +6,11 @@ import { useEffect } from "react"
 
 export default function SideBar() {
 
-    const pathname = usePathname()
+    const pathname = usePathname();
 
-    useEffect(()=>{
-        console.log(pathname)
-    },[])
+    // useEffect(()=>{
+    //   console.log(pathname);
+    // },[pathname])
 
     return (
         <nav className="navbar navbar-expand-md bg-dark navbar-dark align-items-start">
@@ -29,10 +29,10 @@ export default function SideBar() {
             <hr className="border border-1 w-100"/>
             <ul className="navbar-nav nav-pills me-auto mb-2 mb-lg-0 w-100">
               <li className="nav-item">
-                <Link href="/addbook" className="nav-link active">Add Book</Link>
+                <Link href="/addbook" className={pathname === '/addbook' ? 'nav-link active' : 'nav-link'}>Add Book</Link>
               </li>
               <li className="nav-item">
-                <Link href="/login" className="nav-link">Login</Link>
+                <Link href="/login" className={pathname === '/login' ? 'nav-link active' : 'nav-link'}>Login</Link>
               </li>
             </ul>
           </div>
