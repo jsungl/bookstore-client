@@ -3,7 +3,8 @@ import SideBar from "../components/sidebar";
 import "./globals.css";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import BdToggle from "../components/bdToggle";
-
+import Header from "@/components/header";
+import Footer from "@/components/footer";
 
 
 export const metadata = {
@@ -21,38 +22,16 @@ export default function RootLayout({ children }) {
         <div className="container-fluid wrapper m-0 p-0">
           <div className="content_wrapper">
             <BdToggle/>
-            {/* <div className="content_sidebar bg-dark">
-              <SideBarV2/>
-            </div> */}
             <SideBar/>
             <div className="content_main d-flex flex-column">
               <div className="content_header d-flex align-items-center">
-                <div className="container">
-                  <form className="d-flex" role="search">
-                    <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
-                    <button className="btn btn-outline-success" type="submit">Search</button>
-                  </form>
-                </div>
+                <Header/>
               </div>
               <div className="content_body">
                 {children}
               </div>
               <div className="content_footer">
-                <div className="container">
-                  <footer className="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
-                    <div className="col-md-4 d-flex align-items-center">
-                      <Link href="/" className="mb-3 me-2 mb-md-0 text-body-secondary text-decoration-none lh-1">
-                        <img className="footer_logo" src="/bookstore-logo.png" alt="logo" width="30" height="24"></img>
-                      </Link>
-                      <span className="mb-3 mb-md-0 text-body-secondary">&copy; 2024 Company, Inc</span>
-                    </div>
-
-                    <ul className="nav col-md-4 justify-content-end">
-                      <li className="nav-item"><Link href="/addbook" className="nav-link px-2 text-body-secondary">Add Book</Link></li>
-                      <li className="nav-item"><Link href="/login" className="nav-link px-2 text-body-secondary">Login</Link></li>
-                    </ul>
-                  </footer>
-                </div>
+                <Footer/>
               </div>
             </div>
           </div>
