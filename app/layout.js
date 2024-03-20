@@ -2,7 +2,7 @@ import Link from "next/link";
 import SideBar from "../components/sidebar";
 import "./globals.css";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import BdToggle from "../components/bdToggle";
+import "bootstrap-icons/font/bootstrap-icons.css";
 import Header from "@/components/header";
 import Footer from "@/components/footer";
 
@@ -21,7 +21,6 @@ export default function RootLayout({ children }) {
       <body>
         <div className="container-fluid wrapper m-0 p-0">
           <div className="content_wrapper">
-            <BdToggle/>
             <SideBar/>
             <div className="content_main d-flex flex-column">
               <div className="content_header d-flex align-items-center">

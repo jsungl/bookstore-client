@@ -1,15 +1,35 @@
+import Link from "next/link";
 
 export default function Card(props) {
-    const {bookTitle, bookImageUrl} = props;
+    const {bookTitle, bookImageUrl, bookDesc, bookPrice} = props;
 
     return (
         <div className="card">
-            <img src="https://picsum.photos/200" className="bd-img card-img-top" alt="book image"/>
-            <div className="card-body">
-                <h5 className="card-title">{bookTitle}</h5>
-                <p className="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                <a href="#" className="btn btn-primary">Go somewhere</a>
+            <div className="d-flex justify-content-center" style={{ background: '#eee' }}>
+                <Link href="#">
+                    <img src={bookImageUrl} className="bd-img card-img-top p-3" alt="book image"/>
+                </Link>
             </div>
+            <div className="card-body">
+                <div className="d-flex flex-column justify-content-between" style={{ height:'190px'}}>
+                    <div>
+                        <Link href="#" className="text-decoration-none link-dark">
+                            <h5 className="card-title">
+                                {bookTitle}
+                            </h5>
+                        </Link>
+                        
+                        <p className="card-text">
+                            ${bookPrice}
+                        </p>
+                    </div>
+                    <div className="d-flex justify-content-end">
+                        <Link href="#" className="btn btn-sm btn-light me-2" style={{ borderColor:'#adb5bd' }}>update</Link>
+                        <Link href="#" className="btn btn-sm btn-danger">delete</Link>
+                    </div>
+                </div>
+            </div>
+                
         </div>
     )
 }
