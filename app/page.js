@@ -7,14 +7,19 @@ import { useEffect, useState } from "react";
 
 export default function Home() {
   const [bookList, setBookList] = useState([]);
-  const numbers = [1, 2, 3, 4, 5, 6, 7, 8];
+  const [refresh, setRefresh] = useState(false);
+
   useEffect(()=>{
     getAllBooks();
-  },[])
+  },[refresh])
 
   async function getAllBooks() {
     const allbooks = await getRequest("/books");
     setBookList(allbooks);
+  }
+
+  function isRefreshRequired() {
+    setRefresh(!refresh);
   }
 
   return (
@@ -26,10 +31,12 @@ export default function Home() {
               bookList.map((book,key)=>{
                 return (
                   <div className="col" key={key}>
-                    <Card bookTitle={book.title} 
+                    <Card bookId={book.bookId}
+                          bookTitle={book.title}
                           bookDesc={book.description}
                           bookImageUrl={book.imageUrl}
                           bookPrice={book.price}
+                          isRefreshRequired={isRefreshRequired}
                     />
                   </div>
                 )
@@ -38,17 +45,10 @@ export default function Home() {
           </div>
         </div>
         :
-        <div className="container">
-          <div className="row row-cols-1 row-cols-sm-1 row-cols-md-2 row-cols-lg-2 row-cols-xl-3 row-cols-xxl-4 my-3 g-3">
-            {
-              numbers.map((key)=>{
-                return (
-                  <div className="col" key={key}>
-                    <PlaceHolder/>
-                  </div>
-                )
-              })
-            }
+        <div className="container empty">
+          <div className="d-flex justify-content-center align-items-center h-100">
+            <div><i className="bi bi-exclamation-circle"></i></div>
+            <div className="ms-2">No Books</div>
           </div>
         </div>
       }
