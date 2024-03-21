@@ -12,7 +12,7 @@ export default function Footer() {
             </div>
 
             <ul className="nav col-md-4 justify-content-end">
-                <li className="nav-item"><Link href="/addbook" className="nav-link px-2 text-body-secondary">Add Book</Link></li>
+                <li className="nav-item"><Link href="/addBook" className="nav-link px-2 text-body-secondary">Add Book</Link></li>
                 <li className="nav-item"><Link href="/login" className="nav-link px-2 text-body-secondary">Login</Link></li>
             </ul>
             </footer>

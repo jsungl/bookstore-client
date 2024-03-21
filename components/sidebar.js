@@ -29,7 +29,7 @@ export default function SideBar() {
             <hr className="border border-1 w-100"/>
             <ul className="navbar-nav nav-pills me-auto mb-2 mb-lg-0 w-100">
               <li className="nav-item">
-                <Link href="/addbook" className={pathname === '/addbook' ? 'nav-link active' : 'nav-link'}>Add Book</Link>
+                <Link href="/addbook" className={pathname === '/addBook' ? 'nav-link active' : 'nav-link'}>Add Book</Link>
               </li>
               <li className="nav-item">
                 <Link href="/login" className={pathname === '/login' ? 'nav-link active' : 'nav-link'}>Login</Link>
