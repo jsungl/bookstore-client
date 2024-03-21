@@ -1,9 +1,14 @@
 import { deleteRequest } from "@/services/bookservice";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export default function Card(props) {
     const {bookId, bookTitle, bookImageUrl, bookDesc, bookPrice, isRefreshRequired} = props;
+    const router = useRouter();
 
+    function onUpdateButtonClickHandler() {
+        router.push("/update?bookId=" + bookId);
+    }
 
     async function onDeleteButtonClickHandler() {
         await deleteRequest("/deleteBook/" + bookId);
@@ -32,7 +37,7 @@ export default function Card(props) {
                             </p>
                         </div>
                         <div className="d-flex justify-content-end">
-                            <button type="button" className="btn btn-sm btn-light me-2" style={{ borderColor:'#adb5bd' }}>update</button>
+                            <button type="button" className="btn btn-sm btn-light me-2" style={{ borderColor:'#adb5bd' }} onClick={()=>onUpdateButtonClickHandler()}>update</button>
                             <button type="button" className="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target={`#modalId-${bookId}`}>delete</button>
                         </div>
                     </div>
