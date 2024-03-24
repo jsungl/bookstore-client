@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 
 export default function Update() {
 
-    const [title, setTItle] = useState("");
+    const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
     const [imageUrl, setImageUrl] = useState("");
     const [price, setPrice] = useState(0);
@@ -21,7 +21,7 @@ export default function Update() {
 
     async function getBookById() {
         const book = await getRequest("/book/"+bookId);
-        setTItle(book.title);
+        setTitle(book.title);
         setDescription(book.description);
         setImageUrl(book.imageUrl);
         setPrice(book.price);
