@@ -19,14 +19,14 @@ export default function Card(props) {
         <>
             <div className="card">
                 <div className="d-flex justify-content-center" style={{ background: '#eee' }}>
-                    <Link href="#">
+                    <Link href={`/book/${bookId}`}>
                         <img src={bookImageUrl} className="bd-img card-img-top p-3" alt="book image"/>
                     </Link>
                 </div>
                 <div className="card-body">
                     <div className="d-flex flex-column justify-content-between" style={{ height:'190px'}}>
                         <div>
-                            <Link href="#" className="text-decoration-none link-dark">
+                            <Link href={`/book/${bookId}`} className="text-decoration-none link-dark">
                                 <h5 className="card-title">
                                     {bookTitle}
                                 </h5>
