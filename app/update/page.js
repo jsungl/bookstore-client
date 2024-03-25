@@ -37,7 +37,8 @@ export default function Update() {
         }
         
         await putRequest("/update?bookId="+bookId, book);
-        router.push("/");
+        //router.push("/");
+        router.back();
     }
 
     return (
