@@ -50,11 +50,11 @@ export default function Book(props) {
                             <div>
                                 <h5>Total: ${price}</h5>
                             </div>
-                            <select class="form-select" aria-label="Default select example">
-                                <option selected>Quantity</option>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
+                            <select className="form-select" aria-label="Default select example" defaultValue={0}>
+                                <option value={0}>Quantity</option>
+                                <option value={1}>1</option>
+                                <option value={2}>2</option>
+                                <option value={3}>3</option>
                             </select>
                             <div className="mt-2">
                                 <button type="button" className="btn btn-primary me-3" style={{ background: '#FFD814',borderColor:'#FCD200'}}
