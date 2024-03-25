@@ -6,7 +6,7 @@ import { useState } from "react"
 
 export default function AddBook() {
 
-    const [title, setTItle] = useState("");
+    const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
     const [imageUrl, setImageUrl] = useState("");
     const [price, setPrice] = useState(0);
@@ -32,7 +32,7 @@ export default function AddBook() {
                 <form onSubmit={(e)=>{onSubmitHandler(e)}}>
                     <div className="mb-3">
                         <label htmlFor="bookTitle" className="form-label">Book Title</label>
-                        <input type="text" className="form-control" id="bookTitle" value={title} onChange={(e)=>setTItle(e.target.value)}/>
+                        <input type="text" className="form-control" id="bookTitle" value={title} onChange={(e)=>setTitle(e.target.value)}/>
                     </div>
                     
                     <div className="mb-3">
