@@ -3,6 +3,7 @@
 import { getRequest } from "@/services/bookservice";
 import { useEffect, useState } from "react";
 
+
 export default function Book(props) {
     const bookId = props.params.id;
     const [title, setTitle] = useState("");
@@ -15,12 +16,15 @@ export default function Book(props) {
     },[])
 
     async function getBookById() {
-        const book = await getRequest("/book/" + bookId);
+        const response = await getRequest("/api/books/" + bookId);
+        const book = response.data.book;
+
         setTitle(book.title);
         setDescription(book.description);
         setImageUrl(book.imageUrl);
         setPrice(book.price);
     }
+
 
     function onAddCartButtonClickHandler() {
         alert("Service not yet!");
@@ -68,7 +72,7 @@ export default function Book(props) {
                 <hr className="my-5"/>
                 <div className="container empty">
                     <div>
-                        <h5>Descrition</h5>
+                        <h5>Description</h5>
                         <div>{description}</div>
                     </div>
                     

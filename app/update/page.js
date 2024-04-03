@@ -20,7 +20,9 @@ export default function Update() {
 
 
     async function getBookById() {
-        const book = await getRequest("/book/"+bookId);
+        const response = await getRequest("/api/books/"+bookId);
+        const book = response.data.book;
+
         setTitle(book.title);
         setDescription(book.description);
         setImageUrl(book.imageUrl);
@@ -36,7 +38,7 @@ export default function Update() {
             price
         }
         
-        await putRequest("/update?bookId="+bookId, book);
+        await putRequest("/api/books/"+bookId, book);
         //router.push("/");
         router.back();
     }
@@ -53,7 +55,7 @@ export default function Update() {
                     
                     <div className="mb-3">
                         <label htmlFor="bookDescription" className="form-label">Description</label>
-                        <textarea className="form-control" id="bookDescription" rows="3" value={description} onChange={(e)=>setDescription(e.target.value)}></textarea>
+                        <textarea className="form-control" id="bookDescription" rows="5" value={description} onChange={(e)=>setDescription(e.target.value)}></textarea>
                     </div>
 
                     <div className="mb-3">

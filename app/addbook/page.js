@@ -21,7 +21,7 @@ export default function AddBook() {
             price
         }
         
-        await postRequest("/addBook", book);
+        await postRequest("/api/books", book);
         router.push("/");
     }
 

@@ -3,7 +3,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 export default function Card(props) {
-    const {bookId, bookTitle, bookImageUrl, bookDesc, bookPrice, isRefreshRequired} = props;
+    const {bookId, bookTitle, bookImageUrl, bookPrice, isRefreshRequired} = props;
     const router = useRouter();
 
     function onUpdateButtonClickHandler() {
@@ -11,7 +11,7 @@ export default function Card(props) {
     }
 
     async function onDeleteButtonClickHandler() {
-        await deleteRequest("/deleteBook/" + bookId);
+        await deleteRequest("/api/books/" + bookId);
         isRefreshRequired();
     }
 

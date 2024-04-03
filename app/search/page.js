@@ -9,15 +9,17 @@ export default function Search() {
 
     const [bookList, setBookList] = useState([]);
     const [refresh, setRefresh] = useState(false);
+
     const searchParams = useSearchParams();
     const keyword = searchParams.get('keyword');
 
     useEffect(()=>{
         findBooks();
-    },[refresh])
+    },[refresh, keyword])
 
     async function findBooks() {
-        const allbooks = await getRequest("/search?keyword=" + keyword);
+        const response = await getRequest("/api/books?query=" + keyword);
+        const allbooks = response.data.books;
         setBookList(allbooks);
     }
 
