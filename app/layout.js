@@ -1,4 +1,3 @@
-import Link from "next/link";
 import SideBar from "../components/sidebar";
 import "./globals.css";
 import 'bootstrap/dist/css/bootstrap.min.css';
