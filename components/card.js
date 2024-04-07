@@ -2,12 +2,14 @@ import { deleteRequest } from "@/services/bookservice";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
+
 export default function Card(props) {
     const {bookId, bookTitle, bookImageUrl, bookPrice, isRefreshRequired} = props;
     const router = useRouter();
 
     function onUpdateButtonClickHandler() {
-        router.push("/update?bookId=" + bookId);
+        // router.push("/update?bookId=" + bookId);
+        router.push("/edit/" + bookId);
     }
 
     async function onDeleteButtonClickHandler() {
@@ -15,12 +17,17 @@ export default function Card(props) {
         isRefreshRequired();
     }
 
+    const replaceImg = (e) => {
+        e.target.onerror = null;
+        e.target.src = '/not_exist_default.jpg';
+    }
+
     return (
         <>
             <div className="card">
                 <div className="d-flex justify-content-center" style={{ background: '#eee' }}>
                     <Link href={`/book/${bookId}`}>
-                        <img src={bookImageUrl} className="bd-img card-img-top p-3" alt="book image"/>
+                        <img src={bookImageUrl} className="bd-img card-img-top p-3" alt="book image" onError={replaceImg}/>
                     </Link>
                 </div>
                 <div className="card-body">
