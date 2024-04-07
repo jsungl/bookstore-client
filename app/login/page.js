@@ -1,38 +1,18 @@
-"use client"
+import Login from "./login";
 
-export default function Login() {
+/**
+ * metadata 는 클라이언트 컴포넌트에서 사용하지 못하므로 
+ * 서버 컴포넌트를 하나 만들고, 기존 클라이언트 컴포넌트를 불러와 렌더링하는 방식으로 변경
+ */
+export const metadata = {
+    title: "Login"
+};
 
-    function onSubmitButtonClickHandler() {
-        alert("Service not yet!");
-    }
+export default function Page() {
 
     return (
-        <div className="container" style={{ height: '800px'}}>
-            <div className="d-flex justify-content-center align-items-center h-100">
-                <div style={{ width: '35rem' }}>
-                    <form onSubmit={()=>onSubmitButtonClickHandler()}>
-                        <img className="footer_logo mb-4" src="/bookstore-logo.png" alt="logo" width="57" height="57"></img>
-                        <h1 className="h3 mb-3 fw-normal">Please sign in</h1>
-
-                        <div className="form-floating">
-                            <input type="email" className="form-control" id="floatingInput" placeholder="name@example.com" />
-                            <label htmlFor="floatingInput">Email address</label>
-                        </div>
-                        <div className="form-floating">
-                            <input type="password" className="form-control" id="floatingPassword" placeholder="Password" />
-                            <label htmlFor="floatingPassword">Password</label>
-                        </div>
-
-                        <div className="form-check text-start my-3">
-                            <input className="form-check-input" type="checkbox" value="remember-me" id="flexCheckDefault" />
-                            <label className="form-check-label" htmlFor="flexCheckDefault">
-                                Remember me
-                            </label>
-                        </div>
-                        <button className="btn btn-primary w-100 py-2" type="submit">Sign in</button>
-                    </form>
-                </div>
-            </div>
-        </div>
+        <>
+            <Login/>
+        </>
     )
 }
