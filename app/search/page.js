@@ -1,27 +1,40 @@
 "use client"
 
 import Card from "@/components/card";
-import { getRequest } from "@/services/bookservice";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import Loading from "../loading";
 
 export default function Search() {
 
     const [bookList, setBookList] = useState([]);
     const [refresh, setRefresh] = useState(false);
+    const [isError, setIsError] = useState(false);
+    const [message, setMessage] = useState("");
+    const [loading, setLoading] = useState(true);
 
     const searchParams = useSearchParams();
-    const keyword = searchParams.get('keyword');
+    const keyword = searchParams.get('query');
 
     useEffect(()=>{
         findBooks();
     },[refresh, keyword])
 
     async function findBooks() {
-        const response = await getRequest("/api/books?query=" + keyword);
-        const allbooks = response.data.books;
-        setBookList(allbooks);
+        const response = await fetch(`http://127.0.0.1:8081/api/books?query=${keyword}`,{ cache: 'no-store' });
+        const result = await response.json();
+
+        if(result.success) {
+            const data = result.data.books;
+            setBookList(data);
+            setLoading(false);
+        } else {
+            setIsError(true);
+            setMessage(result.data.error.errorMessage);
+        }
+        
     }
+
 
     function isRefreshRequired() {
         setRefresh(!refresh);
@@ -29,34 +42,47 @@ export default function Search() {
 
     return (
         <>
-            {bookList.length !== 0 ?
-                <div className="container">
-                    <div className="row row-cols-1 row-cols-sm-1 row-cols-md-2 row-cols-lg-2 row-cols-xl-3 row-cols-xxl-4 my-3 g-3">
-                        {
+            <div className="container">
+                { 
+                    isError ?
+                    (
+                    <div>    
+                    <div className="alert alert-danger" role="alert">
+                        <h4>요청실패</h4>
+                        <h6>에러 메시지: {message}</h6>
+                    </div>
+                    </div>)
+                    :
+                    (loading ? <Loading/>
+                    :
+                    (bookList.length !== 0 ?
+                        <div className="row row-cols-1 row-cols-sm-1 row-cols-md-2 row-cols-lg-2 row-cols-xl-3 row-cols-xxl-4 my-3 g-3">
+                            {
                             bookList.map((book,key)=>{
                                 return (
-                                    <div className="col" key={key}>
-                                        <Card bookId={book.bookId}
-                                            bookTitle={book.title}
-                                            bookDesc={book.description}
-                                            bookImageUrl={book.imageUrl}
-                                            bookPrice={book.price}
-                                            isRefreshRequired={isRefreshRequired}
-                                        />
-                                    </div>
+                                <div className="col" key={key}>
+                                    <Card bookId={book.bookId}
+                                        bookTitle={book.title}
+                                        bookImageUrl={book.imageUrl}
+                                        bookPrice={book.price}
+                                        isRefreshRequired={isRefreshRequired}
+                                    />
+                                </div>
                                 )
                             })
-                        }
-                    </div>
-                </div>
-                :
-                <div className="container empty">
-                    <div className="d-flex justify-content-center align-items-center h-100">
-                        <div><i className="bi bi-exclamation-circle"></i></div>
-                        <div className="ms-2">No Books</div>
-                    </div>
-                </div>
-            }
+                            }
+                        </div>
+                        :
+                        <div className="container h-100">
+                            <div className="d-flex justify-content-center align-items-center h-100">
+                                <div><i className="bi bi-exclamation-circle"></i></div>
+                                <div className="ms-2">No Books</div>
+                            </div>
+                        </div>
+                    )
+                    )
+                }
+            </div>
         </>
     )
 }

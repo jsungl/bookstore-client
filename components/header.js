@@ -10,7 +10,7 @@ export default function Header() {
 
     function onSubmitHandler(e) {
         e.preventDefault();
-        router.push("/search?keyword=" + keyword);
+        router.push("/search?query=" + keyword);
     }
 
     return (
