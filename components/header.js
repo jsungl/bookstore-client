@@ -14,7 +14,7 @@ export default function Header() {
     }
 
     return (
-        <div className="container">
+        <div className="container py-3">
             <form className="d-flex" onSubmit={(e)=>{onSubmitHandler(e)}}>
                 <input className="form-control me-2" type="text" placeholder="Search by title" value={keyword} onChange={(e)=>setKeyword(e.target.value)}/>
                 <button className="btn btn-outline-success" type="submit">Search</button>
