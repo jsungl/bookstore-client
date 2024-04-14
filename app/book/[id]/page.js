@@ -18,7 +18,13 @@ export default function Book() {
     },[])
 
     async function fetchBook() {
-        const res = await fetch(`http://127.0.0.1:8081/api/books/${params.id}`,{ cache: 'no-store' });
+        const res = await fetch(`http://127.0.0.1:8081/api/books/${params.id}`,{ 
+            method: 'GET',
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json'
+            } 
+        });
         const result = await res.json();
 
         if(!result.success) {
