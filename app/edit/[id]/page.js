@@ -15,7 +15,13 @@ export default function Edit() {
     const [errorField, setErrorField] = useState({});
 
     useEffect(()=>{
-        fetch(`http://127.0.0.1:8081/api/books/${params.id}`,{ cache: 'no-store' })
+        fetch(`http://127.0.0.1:8081/api/books/${params.id}`,{ 
+            method: 'GET',
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
         .then(res=>res.json())
         .then(res=>{
             setTitle(res.data.book.title);
@@ -38,6 +44,7 @@ export default function Edit() {
 
         const response = await fetch(`http://127.0.0.1:8081/api/books/${params.id}`, {
             method: 'PUT',
+            credentials: 'include',
             headers: {
                 'Content-Type': 'application/json'
             },
