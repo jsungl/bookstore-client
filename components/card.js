@@ -1,4 +1,6 @@
-import { deleteRequest } from "@/services/bookservice";
+"use client"
+
+//import { deleteRequest } from "@/services/bookservice";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
@@ -8,13 +10,24 @@ export default function Card(props) {
     const router = useRouter();
 
     function onUpdateButtonClickHandler() {
-        // router.push("/update?bookId=" + bookId);
         router.push("/edit/" + bookId);
     }
 
     async function onDeleteButtonClickHandler() {
-        await deleteRequest("/api/books/" + bookId);
-        isRefreshRequired();
+        //await deleteRequest("/api/books/" + bookId);
+        const response = await fetch(`http://127.0.0.1:8081/api/books/${bookId}`, {
+            method: 'DELETE',
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if(response.ok) {
+            isRefreshRequired();
+        } else {
+            alert('delete fail!');
+        }
     }
 
     const replaceImg = (e) => {
