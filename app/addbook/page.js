@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react"
 
-export default function AddBook() {
+export default function Page() {
 
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
@@ -27,6 +27,7 @@ export default function AddBook() {
         
         const response = await fetch("http://127.0.0.1:8081/api/books", {
             method: 'POST',
+            credentials: 'include',
             headers: {
                 'Content-Type': 'application/json'
             },
