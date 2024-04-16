@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-export default function Page() {
+export default function Register() {
 
     const [memberForm, setMemberForm] = useState({memberId: '', email: '', password: '', rePassword: '', nickname: ''});
     const [matchError, setMatchError] = useState(false);
@@ -27,7 +27,7 @@ export default function Page() {
             "nickname": memberForm.nickname
         }
 
-        const response = await fetch("http://127.0.0.1:8081/api/members/register", {
+        const response = await fetch("http://localhost:8081/api/members/register", {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
