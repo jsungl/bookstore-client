@@ -15,7 +15,7 @@ export default function Card(props) {
 
     async function onDeleteButtonClickHandler() {
         //await deleteRequest("/api/books/" + bookId);
-        const response = await fetch(`http://127.0.0.1:8081/api/books/${bookId}`, {
+        const response = await fetch(`http://localhost:8081/api/books/${bookId}`, {
             method: 'DELETE',
             credentials: 'include',
             headers: {
