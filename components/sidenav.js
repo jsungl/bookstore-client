@@ -5,21 +5,20 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { useEffect } from "react";
 
-export default function SideNav() {
+export default function SideNav({hasToken}) {
     const pathname = usePathname();
-
     const { user, setUser } = useGlobalContext();
-    //console.log(Object.keys(user).length);
 
     useEffect(()=>{
-      console.log("Side Nav Component 렌더링!");
-      if(Object.keys(user).length == 0) {
+      console.log(hasToken);
+      if(hasToken && Object.keys(user).length == 0) {
         fetchUser();
       }
-    },[])
+    },[]);
 
     async function fetchUser() {
-      const response = await fetch("http://127.0.0.1:8081/api/members/me", {
+      console.log("내 정보 요청!");
+      const response = await fetch("http://localhost:8081/api/members/me", {
         method: 'GET',
         credentials: 'include',
         headers: {
@@ -55,15 +54,21 @@ export default function SideNav() {
           <div className="collapse navbar-collapse w-100" id="navbarSupportedContent">
             <hr className="border border-1 w-100"/>
             <ul className="navbar-nav nav-pills me-auto mb-2 mb-lg-0 w-100">
-              <li className="nav-item">
-                <Link href="/addBook" className={pathname === '/addBook' ? 'nav-link active' : 'nav-link'}>Add Book</Link>
-              </li>
-              <li className="nav-item">
-                <Link href="/login" className={pathname === '/login' ? 'nav-link active' : 'nav-link'}>Login</Link>
-              </li>
-              <li className="nav-item">
-                <Link href="/register" className={pathname === '/register' ? 'nav-link active' : 'nav-link'}>Register</Link>
-              </li>
+              {
+                Object.keys(user).length !== 0 ?
+                <li className="nav-item">
+                  <Link href="/addBook" className={pathname === '/addBook' ? 'nav-link active' : 'nav-link'}>Add Book</Link>
+                </li>
+                :
+                <>
+                  <li className="nav-item">
+                    <Link href="/login" className={pathname === '/login' ? 'nav-link active' : 'nav-link'}>Login</Link>
+                  </li>
+                  <li className="nav-item">
+                    <Link href="/register" className={pathname === '/register' ? 'nav-link active' : 'nav-link'}>Register</Link>
+                  </li>
+                </>
+              }
             </ul>
           </div>
         </div>
