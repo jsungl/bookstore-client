@@ -18,7 +18,7 @@ export default function Book() {
     },[])
 
     async function fetchBook() {
-        const res = await fetch(`http://127.0.0.1:8081/api/books/${params.id}`,{ 
+        const res = await fetch(`http://localhost:8081/api/books/${params.id}`,{ 
             method: 'GET',
             credentials: 'include',
             headers: {
