@@ -42,7 +42,7 @@ export default function Edit() {
             price
         }
 
-        const response = await fetch(`http://127.0.0.1:8081/api/books/${params.id}`, {
+        const response = await fetch(`http://localhost:8081/api/books/${params.id}`, {
             method: 'PUT',
             credentials: 'include',
             headers: {
