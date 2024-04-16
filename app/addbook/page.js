@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react"
 
-export default function Page() {
+export default function AddBook() {
 
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
@@ -25,7 +25,7 @@ export default function Page() {
             price
         }
         
-        const response = await fetch("http://127.0.0.1:8081/api/books", {
+        const response = await fetch("http://localhost:8081/api/books", {
             method: 'POST',
             credentials: 'include',
             headers: {

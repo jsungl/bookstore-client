@@ -1,6 +1,6 @@
-import Footer from "@/components/footer";
-import Header from "@/components/header";
-import SideNav from "@/components/sidenav";
+// import Footer from "@/components/footer";
+// import Header from "@/components/header";
+// import SideNav from "@/components/sidenav";
 
 export const metadata = {
     title: "Add Book"
@@ -10,7 +10,8 @@ export default function Layout({children}) {
 
     return (
         <>
-            <SideNav/>
+          {children}
+            {/* <SideNav/>
             <div className="content_main d-flex flex-column">
               <div className="content_header d-flex align-items-center">
                 <Header/>
@@ -21,7 +22,7 @@ export default function Layout({children}) {
               <div className="content_footer">
                 <Footer/>
               </div>
-            </div>
+            </div> */}
         </>
     )
 }
