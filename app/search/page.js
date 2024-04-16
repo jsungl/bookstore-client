@@ -5,7 +5,7 @@ import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import Loading from "../loading";
 
-export default function Page() {
+export default function Search() {
 
     const [bookList, setBookList] = useState([]);
     const [refresh, setRefresh] = useState(false);
@@ -21,7 +21,7 @@ export default function Page() {
     },[refresh, keyword])
 
     async function findBooks() {
-        const response = await fetch(`http://127.0.0.1:8081/api/books?query=${keyword}`,{ 
+        const response = await fetch(`http://localhost:8081/api/books?query=${keyword}`,{ 
             method: 'GET',
             credentials: 'include',
             headers: {
