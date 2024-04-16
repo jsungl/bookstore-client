@@ -5,7 +5,7 @@ import { useState } from "react";
 import { useGlobalContext } from "../context/store";
 
 
-export default function Page() {
+export default function Login() {
 
     const [loginForm, setLoginForm] = useState({username: '', password: ''});
     const [isError, setIsError] = useState(false);
@@ -19,7 +19,7 @@ export default function Page() {
     async function onSubmitButtonClickHandler(e) {
         e.preventDefault();
 
-        const response = await fetch("http://127.0.0.1:8081/api/members/login", {
+        const response = await fetch("http://localhost:8081/api/members/login", {
             method: 'POST',
             credentials: 'include', // 핵심 변경점
             headers: {
