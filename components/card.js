@@ -1,20 +1,21 @@
 "use client"
 
-//import { deleteRequest } from "@/services/bookservice";
+import { useGlobalContext } from "@/app/context/store";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 
 export default function Card(props) {
-    const {bookId, bookTitle, bookImageUrl, bookPrice, isRefreshRequired} = props;
+    const {bookId, bookTitle, bookImageUrl, bookPrice, bookSeller, isRefreshRequired} = props;
     const router = useRouter();
+    const { user } = useGlobalContext();
 
     function onUpdateButtonClickHandler() {
-        router.push("/edit/" + bookId);
+        // router.push("/edit/" + bookId);
+        router.push(`/book/${bookId}/edit`);
     }
 
     async function onDeleteButtonClickHandler() {
-        //await deleteRequest("/api/books/" + bookId);
         const response = await fetch(`http://localhost:8081/api/books/${bookId}`, {
             method: 'DELETE',
             credentials: 'include',
@@ -56,10 +57,14 @@ export default function Card(props) {
                                 ${bookPrice}
                             </p>
                         </div>
-                        <div className="d-flex justify-content-end">
-                            <button type="button" className="btn btn-sm btn-light me-2" style={{ borderColor:'#adb5bd' }} onClick={()=>onUpdateButtonClickHandler()}>update</button>
-                            <button type="button" className="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target={`#modalId-${bookId}`}>delete</button>
-                        </div>
+                        {Object.keys(user).length !== 0 && user.id === bookSeller ?
+                            <div className="d-flex justify-content-end">
+                                <button type="button" className="btn btn-sm btn-light me-2" style={{ borderColor:'#adb5bd' }} onClick={()=>onUpdateButtonClickHandler()}>update</button>
+                                <button type="button" className="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target={`#modalId-${bookId}`}>delete</button>
+                            </div>
+                            :
+                            <></>
+                        }
                     </div>
                 </div>
                     
