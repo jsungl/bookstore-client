@@ -1,8 +1,9 @@
 "use client"
 
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useGlobalContext } from "../context/store";
+import Loading from "@/components/loading";
 
 
 export default function Login() {
@@ -13,7 +14,12 @@ export default function Login() {
     const [errorField, setErrorField] = useState({});
     const router = useRouter();
 
-    const { setUser } = useGlobalContext();
+    const { setUser, loading, setLoading } = useGlobalContext();
+
+
+    useEffect(()=>{
+        setLoading(false);
+    },[])
     
 
     async function onSubmitButtonClickHandler(e) {
@@ -49,6 +55,8 @@ export default function Login() {
     }
 
     return (
+        <>
+        {loading === true && <Loading/>}
         <div className="container h-100">
             {
                 isError && 
@@ -95,5 +103,7 @@ export default function Login() {
                 </div>
             </div>
         </div>
+        </>
+
     )
 }

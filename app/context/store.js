@@ -6,9 +6,11 @@ const GlobalContext = createContext();
 
 export const GlobalContextProvider = ({ children }) => {
     const [user, setUser] = useState({});
+    //const [isFetch, setIsFetch] = useState(false);
+    const [loading, setLoading] = useState(true);
     
     return (
-        <GlobalContext.Provider value={{ user, setUser }}>
+        <GlobalContext.Provider value={{ user, setUser, loading, setLoading }}>
             {children}
         </GlobalContext.Provider>
     )

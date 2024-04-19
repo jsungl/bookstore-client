@@ -1,7 +1,9 @@
 "use client"
 
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useGlobalContext } from "../context/store";
+import Loading from "@/components/loading";
 
 export default function Register() {
 
@@ -10,7 +12,12 @@ export default function Register() {
     const [isError, setIsError] = useState(false);
     const [message, setMessage] = useState("");
     const [errorField, setErrorField] = useState({});
+    const {loading, setLoading} = useGlobalContext();
     const router = useRouter();
+
+    useEffect(()=>{
+        setLoading(false);
+    },[])
 
     async function onSubmitHandler(e) {
         e.preventDefault();
@@ -56,6 +63,8 @@ export default function Register() {
     }
 
     return (
+        <>
+        {loading === true && <Loading/>}
         <div className="container">
             {
                 isError && 
@@ -126,5 +135,6 @@ export default function Register() {
                 </form>
             </div>
         </div>
+        </>
     )
 }

@@ -1,6 +1,7 @@
 "use client"
 
-import Loading from "@/app/loading";
+import { useGlobalContext } from "@/app/context/store";
+import Loading from "@/components/loading";
 import { useParams } from "next/navigation"
 import { useEffect, useState } from "react";
 
@@ -9,12 +10,13 @@ export default function Book() {
     
     const params = useParams();
     const [book, setBook] = useState({});
-    const [loading, setLoading] = useState(true);
     const [isError, setIsError] = useState(false);
     const [message, setMessage] = useState("");
+    const {loading, setLoading} = useGlobalContext();
 
     useEffect(()=>{
         fetchBook();
+        setLoading(false);
     },[])
 
     async function fetchBook() {
@@ -32,7 +34,7 @@ export default function Book() {
             setMessage(result.data.error.errorMessage);
         } else {
             setBook(result.data.book);
-            setLoading(false);
+            //setLoading(false);
         }
 
     }
@@ -52,6 +54,7 @@ export default function Book() {
 
     return (
         <>
+            {loading === true && <Loading/>}
             {
                 isError ?
                 (
@@ -62,8 +65,6 @@ export default function Book() {
                 </div>
                 </div>)
                 :
-                (
-                loading ? <Loading/> :
                 <div className="container">
                     <h3 className="text-center my-5">Book Information</h3>
                     <div className="d-flex flex-column mb-3">
@@ -108,7 +109,7 @@ export default function Book() {
                         </div>
                     </div>
                         
-                </div>)
+                </div>
             }
         </>
     )

@@ -1,9 +1,10 @@
 "use client"
 
 import Card from "@/components/card";
+import Loading from "@/components/loading";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import Loading from "../loading";
+import { useGlobalContext } from "../context/store";
 
 export default function Search() {
 
@@ -11,7 +12,7 @@ export default function Search() {
     const [refresh, setRefresh] = useState(false);
     const [isError, setIsError] = useState(false);
     const [message, setMessage] = useState("");
-    const [loading, setLoading] = useState(true);
+    const {loading, setLoading} = useGlobalContext();
 
     const searchParams = useSearchParams();
     const keyword = searchParams.get('query');
@@ -46,26 +47,33 @@ export default function Search() {
         setRefresh(!refresh);
     }
 
+
     return (
         <>
+            {loading === true && <Loading/>}
             <div className="container">
                 { 
                     isError ?
-                    (
                     <div>    
-                    <div className="alert alert-danger" role="alert">
-                        <h4>요청실패</h4>
-                        <h6>에러 메시지: {message}</h6>
+                        <div className="alert alert-danger" role="alert">
+                            <h4>요청실패</h4>
+                            <h6>에러 메시지: {message}</h6>
+                        </div>
                     </div>
-                    </div>)
                     :
-                    (loading ? <Loading/>
+                    (bookList.length === 0 ?
+                        loading === false &&
+                        <div className="container h-100">
+                            <div className="d-flex justify-content-center align-items-center h-100">
+                                <div><i className="bi bi-exclamation-circle"></i></div>
+                                <div className="ms-2">No Books</div>
+                            </div>
+                        </div>
                     :
-                    (bookList.length !== 0 ?
-                        <div className="row row-cols-1 row-cols-sm-1 row-cols-md-2 row-cols-lg-2 row-cols-xl-3 row-cols-xxl-4 my-3 g-3">
-                            {
-                            bookList.map((book,key)=>{
-                                return (
+                    <div className="row row-cols-1 row-cols-sm-1 row-cols-md-2 row-cols-lg-2 row-cols-xl-3 row-cols-xxl-4 my-3 g-3">
+                        {
+                        bookList.map((book,key)=>{
+                            return (
                                 <div className="col" key={key}>
                                     <Card bookId={book.bookId}
                                         bookTitle={book.title}
@@ -74,19 +82,11 @@ export default function Search() {
                                         isRefreshRequired={isRefreshRequired}
                                     />
                                 </div>
-                                )
-                            })
-                            }
-                        </div>
-                        :
-                        <div className="container h-100">
-                            <div className="d-flex justify-content-center align-items-center h-100">
-                                <div><i className="bi bi-exclamation-circle"></i></div>
-                                <div className="ms-2">No Books</div>
-                            </div>
-                        </div>
-                    )
-                    )
+                            )
+                        })
+                        }
+                    </div>
+                    )    
                 }
             </div>
         </>
