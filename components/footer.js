@@ -1,6 +1,11 @@
+"use client"
+
+import { useGlobalContext } from "@/app/context/store";
 import Link from "next/link";
 
 export default function Footer() {
+    const { user } = useGlobalContext();
+
     return (
         <div className="container">
             <footer className="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
@@ -12,8 +17,17 @@ export default function Footer() {
             </div>
 
             <ul className="nav col-md-4 justify-content-end">
-                <li className="nav-item"><Link href="/addBook" className="nav-link px-2 text-body-secondary">Add Book</Link></li>
-                <li className="nav-item"><Link href="/login" className="nav-link px-2 text-body-secondary">Login</Link></li>
+                {Object.keys(user).length !== 0 ?
+                <>
+                    <li className="nav-item"><Link href="/addbook" className="nav-link px-2 text-body-secondary">Add Book</Link></li>
+                    <li className="nav-item"><Link href="/mypage" className="nav-link px-2 text-body-secondary">MyPage</Link></li>
+                </>
+                :
+                <>
+                    <li className="nav-item"><Link href="/register" className="nav-link px-2 text-body-secondary">Register</Link></li>
+                    <li className="nav-item"><Link href="/login" className="nav-link px-2 text-body-secondary">Login</Link></li>
+                </>
+                }
             </ul>
             </footer>
         </div>
