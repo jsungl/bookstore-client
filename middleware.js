@@ -5,10 +5,13 @@ export function middleware(request) {
 
     let hasToken = request.cookies.has('accessToken');
     let token = request.cookies.get('accessToken');
-    // console.log(hasToken);
 
-    if (request.nextUrl.pathname.startsWith('/addBook') || request.nextUrl.pathname.startsWith('/edit')) {
-        //console.log("인증이 필요한 페이지 접근");
+
+    //인증이 필요한 페이지 접근
+    if (request.nextUrl.pathname.startsWith('/addbook') || 
+        (request.nextUrl.pathname.startsWith('/book') && request.nextUrl.pathname.endsWith('edit'))|| 
+        request.nextUrl.pathname.startsWith('/mypage')) {
+        
         if(!hasToken) {
             return NextResponse.redirect(new URL('/login', request.url));
         } else {
@@ -20,8 +23,8 @@ export function middleware(request) {
 
     }
 
+    //로그인 or 회원가입 페이지 접근
     if (request.nextUrl.pathname.startsWith('/login') || request.nextUrl.pathname.startsWith('/register')) {
-        //console.log("로그인 or 회원가입 페이지 접근");
         if(hasToken) {
             return NextResponse.redirect(new URL('/', request.url));
         }
@@ -36,9 +39,9 @@ export const config = {
         '/login',
         '/register',
         '/search',
-        '/addBook',
+        '/addbook',
+        '/mypage',
         '/book/:path*', 
-        '/edit/:path*',
-        
+        '/book/:path*/edit'
     ],
 }
