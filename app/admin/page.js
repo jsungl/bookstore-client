@@ -35,7 +35,7 @@ export default function Admin() {
 
     const result = await response.json();
     if (!result.success || result.data.member.role !== "ADMIN") {
-      alert("권한이 없습니다.");
+      alert("접근할 수 없습니다.");
       router.replace("/");
     } else {
       setMember(result.data.member);
