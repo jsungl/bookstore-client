@@ -36,7 +36,7 @@ export default function SideNav({ hasToken }) {
     }
   }
 
-  async function onLogoutButtonClickHandler() {
+  async function onLogoutButtonHandler() {
     if (confirm("Do you want to logout?")) {
       const response = await fetch("http://localhost:8081/api/members/logout", {
         method: "POST",
@@ -48,7 +48,7 @@ export default function SideNav({ hasToken }) {
       const result = await response.json();
       if (result.success) {
         setUser({});
-        router.replace("/");
+        router.replace("/", { scroll: false });
       }
     }
   }
@@ -58,7 +58,7 @@ export default function SideNav({ hasToken }) {
       <div className="container-fluid">
         <div className="logo_brand d-flex align-items-center justify-content-between">
           <div className="logo d-flex align-items-center justify-content-center">
-            <Link href="/">
+            <Link href="/" scroll={false}>
               <img src="/bookstore-removebg-logo.png" alt="logo"></img>
             </Link>
           </div>
@@ -89,7 +89,7 @@ export default function SideNav({ hasToken }) {
                 <button
                   type="button"
                   className="btn btn-outline-light btn-sm"
-                  onClick={() => onLogoutButtonClickHandler()}
+                  onClick={() => onLogoutButtonHandler()}
                 >
                   logout
                 </button>
@@ -121,7 +121,9 @@ export default function SideNav({ hasToken }) {
                   <Link
                     href="/mypage"
                     className={
-                      pathname === "/mypage" ? "nav-link active" : "nav-link"
+                      pathname.startsWith("/mypage")
+                        ? "nav-link active"
+                        : "nav-link"
                     }
                   >
                     MyPage
