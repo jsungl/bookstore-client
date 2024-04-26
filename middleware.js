@@ -43,6 +43,7 @@ export const config = {
     "/search",
     "/addbook",
     "/mypage",
+    "/mypage/:path*",
     "/admin",
     "/book/:path*",
     "/book/:path*/edit",
