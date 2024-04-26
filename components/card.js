@@ -22,18 +22,25 @@ export default function Card(props) {
   }
 
   async function onDeleteButtonClickHandler() {
-    const response = await fetch(`http://localhost:8081/api/books/${bookId}`, {
-      method: "DELETE",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    if (confirm("Do you want to delete book?")) {
+      const response = await fetch(
+        `http://localhost:8081/api/books/${bookId}`,
+        {
+          method: "DELETE",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
-    if (response.ok) {
-      isRefreshRequired();
-    } else {
-      alert("delete fail!");
+      if (response.ok) {
+        isRefreshRequired();
+      } else {
+        alert(
+          "An error occurred while processing your request. Please try again."
+        );
+      }
     }
   }
 
@@ -128,7 +135,7 @@ export default function Card(props) {
             <div className="modal-footer">
               <button
                 type="button"
-                className="btn btn-danger"
+                className="btn btn-outline-danger"
                 data-bs-dismiss="modal"
                 onClick={() => onDeleteButtonClickHandler()}
               >
@@ -136,7 +143,7 @@ export default function Card(props) {
               </button>
               <button
                 type="button"
-                className="btn btn-primary"
+                className="btn btn-outline-secondary"
                 data-bs-dismiss="modal"
               >
                 No
