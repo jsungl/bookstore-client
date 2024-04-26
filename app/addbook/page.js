@@ -1,9 +1,8 @@
 "use client";
 
+import Loading from "@/components/loading";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { useGlobalContext } from "../context/store";
-import Loading from "@/components/loading";
 
 export default function AddBook() {
   const [title, setTitle] = useState("");
@@ -13,7 +12,7 @@ export default function AddBook() {
   const [isError, setIsError] = useState(false);
   const [message, setMessage] = useState("");
   const [errorField, setErrorField] = useState({});
-  const { loading, setLoading } = useGlobalContext();
+  const [loading, setLoading] = useState(true);
 
   const router = useRouter();
 
@@ -41,7 +40,6 @@ export default function AddBook() {
     });
 
     const result = await response.json();
-    //console.log(result);
 
     if (!result.success) {
       let error = result.data.error;
@@ -49,148 +47,159 @@ export default function AddBook() {
       setMessage(error.errorMessage);
       setErrorField(error.errorField);
     } else {
-      router.push("/");
+      let bookId = result.data.book.bookId;
+      router.push("/book/" + bookId);
     }
   }
 
-  return (
-    <>
-      {loading === true && <Loading />}
-      <div className="container">
-        {isError && (
-          <div>
-            {/* <div className="alert alert-danger alert-dismissible fade show" role="alert">
-                        <h4>등록실패</h4>
-                        <h6>에러 메시지: {message}</h6>
-                        <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div> */}
-            <div className="alert alert-danger" role="alert">
-              <h4>등록실패</h4>
-              <h6>에러 메시지: {message}</h6>
-            </div>
-          </div>
-        )}
-        <h3 className="text-center mt-5">Add Book</h3>
-        <div className="mt-5">
-          <form
-            onSubmit={(e) => {
-              onSubmitHandler(e);
-            }}
-          >
-            <div className="mb-3">
-              <label htmlFor="bookTitle" className="form-label">
-                Book Title
-              </label>
-              <input
-                type="text"
-                className={
-                  alert && errorField.title
-                    ? "form-control is-invalid"
-                    : "form-control"
-                }
-                id="bookTitle"
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-              />
+  const handleHideAlert = () => {
+    setIsError(false);
+  };
+
+  if (loading) {
+    return <Loading />;
+  } else {
+    return (
+      <>
+        <div className="container">
+          {isError && (
+            <div className="container">
               <div
-                className={
-                  errorField.title
-                    ? "invalid-feedback d-block"
-                    : "invalid-feedback"
-                }
+                className="alert alert-danger alert-dismissible"
+                role="alert"
               >
-                {errorField.title}
+                <h4>An error occurred while processing your request.</h4>
+                <h6>error message: {message}</h6>
+                <button
+                  type="button"
+                  className="btn-close"
+                  onClick={handleHideAlert}
+                ></button>
               </div>
             </div>
-
-            <div className="mb-3">
-              <label htmlFor="description" className="form-label">
-                Description
-              </label>
-              <textarea
-                className={
-                  alert && errorField.description
-                    ? "form-control is-invalid"
-                    : "form-control"
-                }
-                id="description"
-                rows="3"
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-              ></textarea>
-              <div
-                className={
-                  errorField.description
-                    ? "invalid-feedback d-block"
-                    : "invalid-feedback"
-                }
-              >
-                {errorField.description}
-              </div>
-            </div>
-
-            <div className="mb-3">
-              <label htmlFor="bookImageUrl" className="form-label">
-                Book Image URL
-              </label>
-              <input
-                type="text"
-                className={
-                  alert && errorField.imageUrl
-                    ? "form-control is-invalid"
-                    : "form-control"
-                }
-                id="bookImageUrl"
-                value={imageUrl}
-                onChange={(e) => setImageUrl(e.target.value)}
-              />
-              <div
-                className={
-                  errorField.imageUrl
-                    ? "invalid-feedback d-block"
-                    : "invalid-feedback"
-                }
-              >
-                {errorField.imageUrl}
-              </div>
-            </div>
-
-            <div className="mb-3">
-              <label htmlFor="bookPrice" className="form-label">
-                Book Price
-              </label>
-              <div className="input-group mb-3">
-                <span className="input-group-text">$</span>
+          )}
+          <h3 className="text-center mt-5">Add Book</h3>
+          <div className="mt-5">
+            <form
+              onSubmit={(e) => {
+                onSubmitHandler(e);
+              }}
+            >
+              <div className="mb-3">
+                <label htmlFor="bookTitle" className="form-label">
+                  Book Title
+                </label>
                 <input
-                  type="number"
+                  type="text"
                   className={
-                    alert && errorField.price
+                    isError && errorField.title
                       ? "form-control is-invalid"
                       : "form-control"
                   }
-                  id="bookPrice"
-                  value={price}
-                  onChange={(e) => setPrice(e.target.value)}
-                  aria-label="Amount (to the nearest dollar)"
+                  id="bookTitle"
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
                 />
+                <div
+                  className={
+                    errorField.title
+                      ? "invalid-feedback d-block"
+                      : "invalid-feedback"
+                  }
+                >
+                  {errorField.title}
+                </div>
               </div>
-              <div
-                className={
-                  errorField.price
-                    ? "invalid-feedback d-block"
-                    : "invalid-feedback"
-                }
-              >
-                {errorField.price}
-              </div>
-            </div>
 
-            <button type="submit" className="btn btn-outline-primary">
-              Register
-            </button>
-          </form>
+              <div className="mb-3">
+                <label htmlFor="description" className="form-label">
+                  Description
+                </label>
+                <textarea
+                  className={
+                    isError && errorField.description
+                      ? "form-control is-invalid"
+                      : "form-control"
+                  }
+                  id="description"
+                  rows="3"
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                ></textarea>
+                <div
+                  className={
+                    errorField.description
+                      ? "invalid-feedback d-block"
+                      : "invalid-feedback"
+                  }
+                >
+                  {errorField.description}
+                </div>
+              </div>
+
+              <div className="mb-3">
+                <label htmlFor="bookImageUrl" className="form-label">
+                  Book Image URL
+                </label>
+                <input
+                  type="text"
+                  className={
+                    isError && errorField.imageUrl
+                      ? "form-control is-invalid"
+                      : "form-control"
+                  }
+                  id="bookImageUrl"
+                  value={imageUrl}
+                  onChange={(e) => setImageUrl(e.target.value)}
+                />
+                <div
+                  className={
+                    errorField.imageUrl
+                      ? "invalid-feedback d-block"
+                      : "invalid-feedback"
+                  }
+                >
+                  {errorField.imageUrl}
+                </div>
+              </div>
+
+              <div className="mb-3">
+                <label htmlFor="bookPrice" className="form-label">
+                  Book Price
+                </label>
+                <div className="input-group mb-3">
+                  <span className="input-group-text">$</span>
+                  <input
+                    type="number"
+                    className={
+                      isError && errorField.price
+                        ? "form-control is-invalid"
+                        : "form-control"
+                    }
+                    id="bookPrice"
+                    value={price}
+                    onChange={(e) => setPrice(e.target.value)}
+                    aria-label="Amount (to the nearest dollar)"
+                  />
+                </div>
+                <div
+                  className={
+                    errorField.price
+                      ? "invalid-feedback d-block"
+                      : "invalid-feedback"
+                  }
+                >
+                  {errorField.price}
+                </div>
+              </div>
+
+              <button type="submit" className="btn btn-outline-primary">
+                Register
+              </button>
+            </form>
+          </div>
         </div>
-      </div>
-    </>
-  );
+      </>
+    );
+  }
 }

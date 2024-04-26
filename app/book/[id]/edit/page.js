@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { useGlobalContext } from "@/app/context/store";
 import Loading from "@/components/loading";
@@ -6,124 +6,233 @@ import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function Edit() {
-    const params = useParams();
-    const router = useRouter();
-    const [title, setTitle] = useState("");
-    const [description, setDescription] = useState("");
-    const [imageUrl, setImageUrl] = useState("");
-    const [price, setPrice] = useState(0);
-    const [alert, setAlert] = useState(false);
-    const [message, setMessage] = useState("");
-    const [errorField, setErrorField] = useState({});
-    const {loading, setLoading} = useGlobalContext();
+  const params = useParams();
+  const router = useRouter();
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [imageUrl, setImageUrl] = useState("");
+  const [price, setPrice] = useState(0);
+  const [isError, setIsError] = useState(false);
+  const [message, setMessage] = useState("");
+  const [errorField, setErrorField] = useState({});
+  const [loading, setLoading] = useState(true);
+  const [isFetch, setIsFetch] = useState(false);
+  const { user } = useGlobalContext();
 
-    useEffect(()=>{
-        fetch(`http://127.0.0.1:8081/api/books/${params.id}`,{ 
-            method: 'GET',
-            credentials: 'include',
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
-        .then(res=>res.json())
-        .then(res=>{
-            setTitle(res.data.book.title);
-            setDescription(res.data.book.description);
-            setImageUrl(res.data.book.imageUrl);
-            setPrice(res.data.book.price);
-            setLoading(false);
-        })
-    },[])
+  async function fetchBook() {
+    const res = await fetch(`http://localhost:8081/api/books/${params.id}`, {
+      method: "GET",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const result = await res.json();
 
-
-    async function onSubmitHandler(e) {
-        e.preventDefault();
-        
-        const data = {
-            title,
-            description,
-            imageUrl,
-            price
-        }
-
-        const response = await fetch(`http://localhost:8081/api/books/${params.id}`, {
-            method: 'PUT',
-            credentials: 'include',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-        })
-
-        const result = await response.json();
-
-        if(!result.success) {
-            let error = result.data.error;
-            setAlert(true);
-            setMessage(error.errorMessage);
-            setErrorField(error.errorField);
-        } else {
-            router.push("/");
-        }
-        
+    if (!result.success) {
+      setIsError(true);
+      setMessage(result.data.error.errorMessage);
+    } else {
+      let author = result.data.book.sellerId;
+      if (author !== user.id) {
+        alert("You do not have access.");
+        router.replace("/", { scroll: false });
+      } else {
+        setTitle(result.data.book.title);
+        setDescription(result.data.book.description);
+        setImageUrl(result.data.book.imageUrl);
+        setPrice(result.data.book.price);
+        setIsFetch(true);
+      }
     }
+  }
 
+  useEffect(() => {
+    fetchBook();
+    setLoading(false);
+  }, []);
+
+  async function onSubmitHandler(e) {
+    e.preventDefault();
+
+    const data = {
+      title,
+      description,
+      imageUrl,
+      price,
+    };
+
+    const response = await fetch(
+      `http://localhost:8081/api/books/${params.id}`,
+      {
+        method: "PUT",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      }
+    );
+
+    const result = await response.json();
+
+    if (!result.success) {
+      let error = result.data.error;
+      setIsError(true);
+      setMessage(error.errorMessage);
+      setErrorField(error.errorField);
+    } else {
+      router.push("/book/" + params.id, { scroll: false });
+    }
+  }
+
+  const handleHideAlert = () => {
+    setIsError(false);
+  };
+
+  if (loading) {
+    return <Loading />;
+  } else {
     return (
-        <>
-        {loading === true && <Loading/>}
-        <div className="container">
-            {
-                alert && 
-                (<div>
-                    <div className="alert alert-danger" role="alert">
-                        <h4>수정실패</h4>
-                        <h6>에러 메시지: {message}</h6>
-                    </div>
-                </div>)
-            }
-            
+      <div className="container">
+        {isError && (
+          <div>
+            <div className="alert alert-danger alert-dismissible" role="alert">
+              <h4>An error occurred while processing your request.</h4>
+              <h6>error message: {message}</h6>
+              <button
+                type="button"
+                className="btn-close"
+                onClick={handleHideAlert}
+              ></button>
+            </div>
+          </div>
+        )}
+        {isFetch && (
+          <>
             <h3 className="text-center mt-5">Update Book</h3>
             <div className="mt-5">
-                <form onSubmit={(e)=>{onSubmitHandler(e)}}>
-                    <div className="mb-3">
-                        <label htmlFor="bookTitle" className="form-label">Book Title</label>
-                        <input type="text" className={alert && errorField.title ? 'form-control is-invalid' : 'form-control'} id="bookTitle" value={title} onChange={(e)=>setTitle(e.target.value)}/>
-                        <div className={errorField.title ? 'invalid-feedback d-block' : 'invalid-feedback'}>
-                            {errorField.title}
-                        </div>
-                    </div>
-                    
-                    <div className="mb-3">
-                        <label htmlFor="bookDescription" className="form-label">Description</label>
-                        <textarea className={alert && errorField.description ? 'form-control is-invalid' : 'form-control'} id="bookDescription" rows="5" value={description} onChange={(e)=>setDescription(e.target.value)}></textarea>
-                        <div className={errorField.description ? 'invalid-feedback d-block' : 'invalid-feedback'}>
-                            {errorField.description}
-                        </div>
-                    </div>
+              <form
+                onSubmit={(e) => {
+                  onSubmitHandler(e);
+                }}
+              >
+                <div className="mb-3">
+                  <label htmlFor="bookTitle" className="form-label">
+                    Book Title
+                  </label>
+                  <input
+                    type="text"
+                    className={
+                      alert && errorField.title
+                        ? "form-control is-invalid"
+                        : "form-control"
+                    }
+                    id="bookTitle"
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                  />
+                  <div
+                    className={
+                      errorField.title
+                        ? "invalid-feedback d-block"
+                        : "invalid-feedback"
+                    }
+                  >
+                    {errorField.title}
+                  </div>
+                </div>
 
-                    <div className="mb-3">
-                        <label htmlFor="bookImageUrl" className="form-label">Book Image URL</label>
-                        <input type="text" className={alert && errorField.imageUrl ? 'form-control is-invalid' : 'form-control'} id="bookImageUrl" value={imageUrl} onChange={(e)=>setImageUrl(e.target.value)}/>
-                        <div className={errorField.imageUrl ? 'invalid-feedback d-block' : 'invalid-feedback'}>
-                            {errorField.imageUrl}
-                        </div>
-                    </div>
+                <div className="mb-3">
+                  <label htmlFor="bookDescription" className="form-label">
+                    Description
+                  </label>
+                  <textarea
+                    className={
+                      alert && errorField.description
+                        ? "form-control is-invalid"
+                        : "form-control"
+                    }
+                    id="bookDescription"
+                    rows="5"
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                  ></textarea>
+                  <div
+                    className={
+                      errorField.description
+                        ? "invalid-feedback d-block"
+                        : "invalid-feedback"
+                    }
+                  >
+                    {errorField.description}
+                  </div>
+                </div>
 
-                    <div className="mb-3">
-                        <label htmlFor="bookPrice" className="form-label">Book Price</label>
-                        <div className="input-group mb-3">
-                            <span className="input-group-text">$</span>
-                            <input type="number" className={alert && errorField.price ? 'form-control is-invalid' : 'form-control'} id="bookPrice" value={price} onChange={(e)=>setPrice(e.target.value)} aria-label="Amount (to the nearest dollar)" />
-                        </div>
-                        <div className={errorField.price ? 'invalid-feedback d-block' : 'invalid-feedback'}>
-                            {errorField.price}
-                        </div>
-                    </div>
+                <div className="mb-3">
+                  <label htmlFor="bookImageUrl" className="form-label">
+                    Book Image URL
+                  </label>
+                  <input
+                    type="text"
+                    className={
+                      alert && errorField.imageUrl
+                        ? "form-control is-invalid"
+                        : "form-control"
+                    }
+                    id="bookImageUrl"
+                    value={imageUrl}
+                    onChange={(e) => setImageUrl(e.target.value)}
+                  />
+                  <div
+                    className={
+                      errorField.imageUrl
+                        ? "invalid-feedback d-block"
+                        : "invalid-feedback"
+                    }
+                  >
+                    {errorField.imageUrl}
+                  </div>
+                </div>
 
-                    <button type="submit" className="btn btn-outline-primary">Save</button>
-                </form>
+                <div className="mb-3">
+                  <label htmlFor="bookPrice" className="form-label">
+                    Book Price
+                  </label>
+                  <div className="input-group mb-3">
+                    <span className="input-group-text">$</span>
+                    <input
+                      type="number"
+                      className={
+                        alert && errorField.price
+                          ? "form-control is-invalid"
+                          : "form-control"
+                      }
+                      id="bookPrice"
+                      value={price}
+                      onChange={(e) => setPrice(e.target.value)}
+                      aria-label="Amount (to the nearest dollar)"
+                    />
+                  </div>
+                  <div
+                    className={
+                      errorField.price
+                        ? "invalid-feedback d-block"
+                        : "invalid-feedback"
+                    }
+                  >
+                    {errorField.price}
+                  </div>
+                </div>
+
+                <button type="submit" className="btn btn-outline-primary">
+                  Save
+                </button>
+              </form>
             </div>
-        </div>
-        </>    
-    )
+          </>
+        )}
+      </div>
+    );
+  }
 }

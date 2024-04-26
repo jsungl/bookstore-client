@@ -1,12 +1,11 @@
-//import SideBar from "../components/sidebar";
 import "./globals.css";
-import 'bootstrap/dist/css/bootstrap.min.css';
+import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import { GlobalContextProvider } from "./context/store";
 import Header from "@/components/header";
 import Footer from "@/components/footer";
 import SideNav from "@/components/sidenav";
-import { cookies } from 'next/headers'
+import { cookies } from "next/headers";
 
 export const metadata = {
   title: "BookStore App",
@@ -14,29 +13,30 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
-
   const cookieStore = cookies();
-  const hasToken = cookieStore.has('accessToken');
+  const hasToken = cookieStore.has("accessToken");
 
   return (
     <html>
       <head>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossOrigin="anonymous"></script>
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+          crossOrigin="anonymous"
+        ></script>
       </head>
       <body>
         <div className="container-fluid wrapper m-0 p-0">
           <div className="content_wrapper">
             <GlobalContextProvider>
-              <SideNav hasToken={hasToken}/>
+              <SideNav hasToken={hasToken} />
               <div className="content_main d-flex flex-column">
                 <div className="content_header d-flex align-items-center">
-                  <Header/>
+                  <Header />
                 </div>
-                <div className="content_body flex-grow-1">
-                  {children}
-                </div>
+                <div className="content_body flex-grow-1">{children}</div>
                 <div className="content_footer">
-                  <Footer/>
+                  <Footer />
                 </div>
               </div>
             </GlobalContextProvider>
