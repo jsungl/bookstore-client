@@ -22,7 +22,7 @@ export default function MyPage() {
   const router = useRouter();
 
   async function fetchUser() {
-    const response = await fetch("http://localhost:8081/api/members/me", {
+    const response = await fetch("/api/members/me", {
       method: "GET",
       credentials: "include",
       headers: {

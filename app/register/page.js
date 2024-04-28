@@ -45,7 +45,7 @@ export default function Register() {
       nickname: memberForm.nickname,
     };
 
-    const response = await fetch("http://localhost:8081/api/members/register", {
+    const response = await fetch("/api/members/register", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -108,7 +108,7 @@ export default function Register() {
               <input
                 type="text"
                 className={
-                  isError && (errorField || errorField.memberId)
+                  isError && errorField.memberId
                     ? "form-control is-invalid"
                     : "form-control"
                 }
@@ -143,7 +143,7 @@ export default function Register() {
               <input
                 type="email"
                 className={
-                  isError && (errorField || errorField.email)
+                  isError && errorField.email
                     ? "form-control is-invalid"
                     : "form-control"
                 }

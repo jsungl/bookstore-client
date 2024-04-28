@@ -21,7 +21,7 @@ export default function SideNav({ hasToken }) {
 
   async function fetchUser() {
     console.log("내 정보 요청!");
-    const response = await fetch("http://localhost:8081/api/members/me", {
+    const response = await fetch("/api/members/me", {
       method: "GET",
       credentials: "include",
       headers: {
@@ -38,7 +38,7 @@ export default function SideNav({ hasToken }) {
 
   async function onLogoutButtonHandler() {
     if (confirm("Do you want to logout?")) {
-      const response = await fetch("http://localhost:8081/api/members/logout", {
+      const response = await fetch("/api/members/logout", {
         method: "POST",
         credentials: "include",
         headers: {

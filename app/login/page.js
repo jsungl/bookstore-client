@@ -22,7 +22,7 @@ export default function Login() {
   async function onSubmitButtonHandler(e) {
     e.preventDefault();
 
-    const response = await fetch("http://localhost:8081/api/members/login", {
+    const response = await fetch("/api/members/login", {
       method: "POST",
       credentials: "include", // 핵심 변경점
       headers: {

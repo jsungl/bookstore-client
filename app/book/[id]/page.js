@@ -13,7 +13,7 @@ export default function Book() {
   const [isFetch, setIsFetch] = useState(false);
 
   async function fetchBook() {
-    const res = await fetch(`http://localhost:8081/api/books/${params.id}`, {
+    const res = await fetch(`/api/books/${params.id}`, {
       method: "GET",
       credentials: "include",
       headers: {

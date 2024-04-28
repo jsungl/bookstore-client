@@ -21,7 +21,7 @@ export default function Admin() {
   const router = useRouter();
 
   async function fetchUser() {
-    const response = await fetch("http://localhost:8081/api/members/me", {
+    const response = await fetch("/api/members/me", {
       method: "GET",
       credentials: "include",
       headers: {
@@ -31,8 +31,8 @@ export default function Admin() {
 
     const result = await response.json();
     if (!result.success || result.data.member.role !== "ADMIN") {
-      alert("접근할 수 없습니다.");
-      router.replace("/");
+      alert("You do not have access.");
+      router.replace("/", { scroll: false });
     } else {
       setMember(result.data.member);
       setIsFetch(true);
@@ -46,7 +46,7 @@ export default function Admin() {
 
   async function onMemberListButtonHandler() {
     if (!clicked) {
-      const response = await fetch("http://localhost:8081/api/members", {
+      const response = await fetch("/api/members", {
         method: "GET",
         credentials: "include",
         headers: {

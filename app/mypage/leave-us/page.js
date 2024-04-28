@@ -15,7 +15,7 @@ export default function LeaveUs() {
   const { setUser } = useGlobalContext();
 
   async function fetchUser() {
-    const response = await fetch("http://localhost:8081/api/members/me", {
+    const response = await fetch("/api/members/me", {
       method: "GET",
       credentials: "include",
       headers: {
@@ -47,7 +47,7 @@ export default function LeaveUs() {
     e.preventDefault();
 
     if (confirm("Do you want to delete account?")) {
-      const response = await fetch("http://localhost:8081/api/members/leave", {
+      const response = await fetch("/api/members/leave", {
         method: "DELETE",
         credentials: "include",
         headers: {

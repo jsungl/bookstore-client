@@ -23,16 +23,13 @@ export default function Card(props) {
 
   async function onDeleteButtonClickHandler() {
     if (confirm("Do you want to delete book?")) {
-      const response = await fetch(
-        `http://localhost:8081/api/books/${bookId}`,
-        {
-          method: "DELETE",
-          credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const response = await fetch(`/api/books/${bookId}`, {
+        method: "DELETE",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
 
       if (response.ok) {
         isRefreshRequired();

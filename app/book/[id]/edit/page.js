@@ -20,7 +20,7 @@ export default function Edit() {
   const { user } = useGlobalContext();
 
   async function fetchBook() {
-    const res = await fetch(`http://localhost:8081/api/books/${params.id}`, {
+    const res = await fetch(`/api/books/${params.id}`, {
       method: "GET",
       credentials: "include",
       headers: {
@@ -62,17 +62,14 @@ export default function Edit() {
       price,
     };
 
-    const response = await fetch(
-      `http://localhost:8081/api/books/${params.id}`,
-      {
-        method: "PUT",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      }
-    );
+    const response = await fetch(`/api/books/${params.id}`, {
+      method: "PUT",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
 
     const result = await response.json();
 

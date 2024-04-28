@@ -30,7 +30,7 @@ export default function AddBook() {
       price,
     };
 
-    const response = await fetch("http://localhost:8081/api/books", {
+    const response = await fetch("/api/books", {
       method: "POST",
       credentials: "include",
       headers: {

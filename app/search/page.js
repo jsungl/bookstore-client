@@ -21,16 +21,13 @@ export default function Search() {
   }, []);
 
   async function findBooks() {
-    const response = await fetch(
-      `http://localhost:8081/api/books?query=${keyword}`,
-      {
-        method: "GET",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
+    const response = await fetch(`/api/books?query=${keyword}`, {
+      method: "GET",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
     const result = await response.json();
 
     if (result.success) {

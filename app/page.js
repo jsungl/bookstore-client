@@ -14,7 +14,7 @@ export default function Home() {
   useEffect(() => {
     // console.log(getCookie('accessToken'));
 
-    fetch("http://localhost:8081/api/books", {
+    fetch("/api/books", {
       method: "GET",
       credentials: "include",
       headers: {

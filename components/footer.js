@@ -10,7 +10,7 @@ export default function Footer() {
 
   const onLogoutButtonHandler = async () => {
     if (confirm("Do you want to logout?")) {
-      const response = await fetch("http://localhost:8081/api/members/logout", {
+      const response = await fetch("/api/members/logout", {
         method: "POST",
         credentials: "include",
         headers: {
