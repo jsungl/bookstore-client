@@ -17,8 +17,7 @@ export default function Card(props) {
   const { user } = useGlobalContext();
 
   function onUpdateButtonClickHandler() {
-    // router.push("/edit/" + bookId);
-    router.push(`/book/${bookId}/edit`);
+    router.push(`/book/${bookId}/edit`, { scroll: false });
   }
 
   async function onDeleteButtonClickHandler() {
