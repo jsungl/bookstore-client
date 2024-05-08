@@ -30,7 +30,7 @@ export default function RootLayout({ children }) {
           <div className="content_wrapper">
             <GlobalContextProvider>
               <SideNav hasToken={hasToken} />
-              <div className="content_main d-flex flex-column">
+              {/* <div className="content_main d-flex flex-column">
                 <div className="content_header d-flex align-items-center">
                   <Header />
                 </div>
@@ -38,7 +38,8 @@ export default function RootLayout({ children }) {
                 <div className="content_footer">
                   <Footer />
                 </div>
-              </div>
+              </div> */}
+              <div className="content_main d-flex flex-column">{children}</div>
             </GlobalContextProvider>
           </div>
         </div>
