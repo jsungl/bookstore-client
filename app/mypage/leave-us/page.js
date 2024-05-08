@@ -27,12 +27,23 @@ export default function LeaveUs() {
     if (!result.success) {
       let error = result.data.error;
       if (error.errorCode === "E4011") {
-        alert("You do not have access.");
+        alert(
+          "You are not authorized to view this page. Please log in to continue."
+        );
         router.replace("/", { scroll: false });
-      } else {
-        setIsError(true);
-        setMessage(error.errorMessage);
+      } else if (
+        error.errorCode !== "E4011" &&
+        error.errorCode.startsWith("E401")
+      ) {
+        alert(
+          "You do not have permission to access this page. Please log in and try again."
+        );
+        setUser({});
+        router.push("/", { scroll: false });
       }
+
+      setIsError(true);
+      setMessage(error.errorMessage);
     } else {
       setIsFetch(true);
     }

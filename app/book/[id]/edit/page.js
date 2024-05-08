@@ -2,6 +2,7 @@
 
 import { useGlobalContext } from "@/app/context/store";
 import Loading from "@/components/loading";
+import getUserData from "@/utils/getUserData";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -17,7 +18,7 @@ export default function Edit() {
   const [errorField, setErrorField] = useState({});
   const [loading, setLoading] = useState(true);
   const [isFetch, setIsFetch] = useState(false);
-  const { user } = useGlobalContext();
+  const { user, setUser } = useGlobalContext();
 
   async function fetchBook() {
     const res = await fetch(`/api/books/${params.id}`, {
@@ -48,6 +49,21 @@ export default function Edit() {
   }
 
   useEffect(() => {
+    // fetchBook();
+    // setLoading(false);
+
+    async function fetchUser() {
+      const data = await getUserData();
+      if (!data.success) {
+        alert(
+          "You do not have permission to access this page. Please log in and try again."
+        );
+        setUser({});
+        router.push("/", { scroll: false });
+      }
+    }
+
+    Object.keys(user).length !== 0 && fetchUser();
     fetchBook();
     setLoading(false);
   }, []);

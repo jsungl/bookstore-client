@@ -19,12 +19,13 @@ export default function Register() {
   const [errorField, setErrorField] = useState({});
   const [loading, setLoading] = useState(true);
   const router = useRouter();
-  const { user } = useGlobalContext();
+  const { user, setUser } = useGlobalContext();
 
   useEffect(() => {
     if (Object.keys(user).length !== 0) {
-      alert("You do not have access.");
-      router.replace("/", { scroll: false });
+      // alert("You do not have access.");
+      // router.replace("/", { scroll: false });
+      setUser({});
     } else {
       setLoading(false);
     }

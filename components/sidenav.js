@@ -4,6 +4,7 @@ import { useGlobalContext } from "@/app/context/store";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import Loading from "./loading";
 
 export default function SideNav({ hasToken }) {
   const pathname = usePathname();
@@ -12,8 +13,8 @@ export default function SideNav({ hasToken }) {
   const router = useRouter();
 
   useEffect(() => {
-    //console.log(hasToken);
-    if (hasToken && Object.keys(user).length == 0) {
+    console.log("sideNav 렌더링");
+    if (hasToken && Object.keys(user).length === 0) {
       fetchUser();
     }
     setLoading(false);
@@ -33,6 +34,8 @@ export default function SideNav({ hasToken }) {
     //console.log(result);
     if (result.success) {
       setUser(result.data.member);
+    } else {
+      router.push("/", { scroll: false });
     }
   }
 
@@ -51,6 +54,10 @@ export default function SideNav({ hasToken }) {
         router.replace("/", { scroll: false });
       }
     }
+  }
+
+  if (loading) {
+    return <Loading />;
   }
 
   return (
@@ -80,9 +87,7 @@ export default function SideNav({ hasToken }) {
           id="navbarSupportedContent"
         >
           <hr className="border border-1 w-100" />
-          {loading ? (
-            <ul className="navbar-nav nav-pills me-auto mb-2 mb-lg-0 w-100"></ul>
-          ) : Object.keys(user).length !== 0 ? (
+          {Object.keys(user).length !== 0 ? (
             <ul className="navbar-nav nav-pills me-auto mb-2 mb-lg-0 w-100">
               <div>
                 <span className="text-white px-2">hello, {user.nickname}</span>

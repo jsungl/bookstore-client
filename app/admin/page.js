@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Loading from "@/components/loading";
+import { useGlobalContext } from "../context/store";
 
 export default function Admin() {
   const [member, setMember] = useState({
@@ -19,6 +20,7 @@ export default function Admin() {
   const [loading, setLoading] = useState(true);
   const [isFetch, setIsFetch] = useState(false);
   const router = useRouter();
+  const { setUser } = useGlobalContext();
 
   async function fetchUser() {
     const response = await fetch("/api/members/me", {
@@ -30,13 +32,31 @@ export default function Admin() {
     });
 
     const result = await response.json();
-    if (!result.success || result.data.member.role !== "ADMIN") {
-      alert("You do not have access.");
+    if (!result.success) {
+      alert(
+        "You are not authorized to view this page. Please log in to continue."
+      );
+      setUser({});
       router.replace("/", { scroll: false });
     } else {
-      setMember(result.data.member);
-      setIsFetch(true);
+      if (result.data.member.role !== "ADMIN") {
+        alert(
+          "You do not have permission to access this page. Please log in and try again."
+        );
+        router.push("/", { scroll: false });
+      } else {
+        setMember(result.data.member);
+        setIsFetch(true);
+      }
     }
+
+    // if (!result.success || result.data.member.role !== "ADMIN") {
+    //   alert("You do not have access.");
+    //   router.replace("/", { scroll: false });
+    // } else {
+    //   setMember(result.data.member);
+    //   setIsFetch(true);
+    // }
   }
 
   useEffect(() => {

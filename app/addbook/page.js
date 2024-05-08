@@ -1,8 +1,10 @@
 "use client";
 
 import Loading from "@/components/loading";
+import getUserData from "@/utils/getUserData";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { useGlobalContext } from "../context/store";
 
 export default function AddBook() {
   const [title, setTitle] = useState("");
@@ -14,10 +16,25 @@ export default function AddBook() {
   const [errorField, setErrorField] = useState({});
   const [loading, setLoading] = useState(true);
 
+  const { user, setUser } = useGlobalContext();
+
   const router = useRouter();
 
   useEffect(() => {
-    setLoading(false);
+    async function fetchUser() {
+      const data = await getUserData();
+      if (data.success) {
+        setLoading(false);
+      } else {
+        alert(
+          "You do not have permission to access this page. Please log in and try again."
+        );
+        setUser({});
+        router.push("/", { scroll: false });
+      }
+    }
+
+    Object.keys(user).length !== 0 && fetchUser();
   }, []);
 
   async function onSubmitHandler(e) {
