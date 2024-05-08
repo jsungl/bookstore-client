@@ -101,6 +101,7 @@ export default function SideNav({ hasToken }) {
                   className={
                     pathname === "/addbook" ? "nav-link active" : "nav-link"
                   }
+                  scroll={false}
                 >
                   Add Book
                 </Link>
@@ -112,6 +113,7 @@ export default function SideNav({ hasToken }) {
                     className={
                       pathname === "/admin" ? "nav-link active" : "nav-link"
                     }
+                    scroll={false}
                   >
                     Admin Page
                   </Link>
@@ -125,6 +127,7 @@ export default function SideNav({ hasToken }) {
                         ? "nav-link active"
                         : "nav-link"
                     }
+                    scroll={false}
                   >
                     MyPage
                   </Link>
@@ -139,6 +142,7 @@ export default function SideNav({ hasToken }) {
                   className={
                     pathname === "/register" ? "nav-link active" : "nav-link"
                   }
+                  scroll={false}
                 >
                   Register
                 </Link>
@@ -149,6 +153,7 @@ export default function SideNav({ hasToken }) {
                   className={
                     pathname === "/login" ? "nav-link active" : "nav-link"
                   }
+                  scroll={false}
                 >
                   Login
                 </Link>
