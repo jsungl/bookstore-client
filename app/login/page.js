@@ -13,9 +13,12 @@ export default function Login() {
   const [errorField, setErrorField] = useState("");
   const router = useRouter();
 
-  const { setUser } = useGlobalContext();
+  const { user, setUser } = useGlobalContext();
 
   useEffect(() => {
+    if (user) {
+      setUser({});
+    }
     setLoading(false);
   }, []);
 
