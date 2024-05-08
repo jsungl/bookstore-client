@@ -2,7 +2,6 @@
 
 import Card from "@/components/card";
 import { useEffect, useState } from "react";
-// import { getCookie } from 'cookies-next';
 import Loading from "@/components/loading";
 import Header from "@/components/header";
 import Footer from "@/components/footer";
@@ -14,8 +13,6 @@ export default function Home() {
   const [isFetch, setIsFetch] = useState(false);
 
   useEffect(() => {
-    // console.log(getCookie('accessToken'));
-
     fetch("/api/books", {
       method: "GET",
       credentials: "include",

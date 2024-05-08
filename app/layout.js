@@ -2,8 +2,6 @@ import "./globals.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import { GlobalContextProvider } from "./context/store";
-import Header from "@/components/header";
-import Footer from "@/components/footer";
 import SideNav from "@/components/sidenav";
 import { cookies } from "next/headers";
 
@@ -30,15 +28,6 @@ export default function RootLayout({ children }) {
           <div className="content_wrapper">
             <GlobalContextProvider>
               <SideNav hasToken={hasToken} />
-              {/* <div className="content_main d-flex flex-column">
-                <div className="content_header d-flex align-items-center">
-                  <Header />
-                </div>
-                <div className="content_body flex-grow-1">{children}</div>
-                <div className="content_footer">
-                  <Footer />
-                </div>
-              </div> */}
               <div className="content_main d-flex flex-column">{children}</div>
             </GlobalContextProvider>
           </div>
