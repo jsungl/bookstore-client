@@ -33,6 +33,7 @@ export default function MyPage() {
     });
 
     const result = await response.json();
+
     if (result.success) {
       setMember(result.data.member);
       setIsFetch(true);

@@ -12,14 +12,6 @@ export default function SideNav({ hasToken }) {
   const [loading, setLoading] = useState(true);
   const router = useRouter();
 
-  useEffect(() => {
-    console.log("sideNav 렌더링");
-    if (hasToken && Object.keys(user).length === 0) {
-      fetchUser();
-    }
-    setLoading(false);
-  }, []);
-
   async function fetchUser() {
     console.log("내 정보 요청!");
     const response = await fetch("/api/members/me", {
@@ -31,13 +23,20 @@ export default function SideNav({ hasToken }) {
     });
 
     const result = await response.json();
-    //console.log(result);
     if (result.success) {
       setUser(result.data.member);
     } else {
       router.push("/", { scroll: false });
     }
   }
+
+  useEffect(() => {
+    console.log("sideNav 렌더링");
+    if (hasToken && Object.keys(user).length === 0) {
+      fetchUser();
+    }
+    setLoading(false);
+  }, []);
 
   async function onLogoutButtonHandler() {
     if (confirm("Do you want to logout?")) {
