@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import Loading from "@/components/loading";
+// import Loading from "@/components/loading";
 import { useGlobalContext } from "../context/store";
 
 export default function Admin() {
@@ -49,14 +49,6 @@ export default function Admin() {
         setIsFetch(true);
       }
     }
-
-    // if (!result.success || result.data.member.role !== "ADMIN") {
-    //   alert("You do not have access.");
-    //   router.replace("/", { scroll: false });
-    // } else {
-    //   setMember(result.data.member);
-    //   setIsFetch(true);
-    // }
   }
 
   useEffect(() => {
@@ -92,7 +84,8 @@ export default function Admin() {
   };
 
   if (loading) {
-    return <Loading />;
+    // return <Loading />;
+    return <div className="container"></div>;
   } else {
     return (
       <>

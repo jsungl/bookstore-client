@@ -1,6 +1,6 @@
 "use client";
 
-import Loading from "@/components/loading";
+// import Loading from "@/components/loading";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useGlobalContext } from "../context/store";
@@ -78,7 +78,8 @@ export default function Register() {
   };
 
   if (loading) {
-    return <Loading />;
+    // return <Loading />;
+    return <div className="container"></div>;
   } else {
     return (
       <div className="container">

@@ -1,6 +1,6 @@
 "use client";
 
-import Loading from "@/components/loading";
+// import Loading from "@/components/loading";
 import getUserData from "@/utils/getUserData";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -21,20 +21,24 @@ export default function AddBook() {
   const router = useRouter();
 
   useEffect(() => {
+    console.log("AddBook 렌더링");
     async function fetchUser() {
       const data = await getUserData();
-      if (data.success) {
-        setLoading(false);
-      } else {
+      if (!data.success) {
         alert(
           "You do not have permission to access this page. Please log in and try again."
         );
         setUser({});
         router.push("/", { scroll: false });
+      } else {
+        setLoading(false);
       }
     }
 
-    Object.keys(user).length !== 0 && fetchUser();
+    // if (Object.keys(user).length === 0) {
+    //   fetchUser();
+    // }
+    fetchUser();
   }, []);
 
   async function onSubmitHandler(e) {
@@ -74,7 +78,8 @@ export default function AddBook() {
   };
 
   if (loading) {
-    return <Loading />;
+    return <div className="container"></div>;
+    // return <Loading />;
   } else {
     return (
       <>

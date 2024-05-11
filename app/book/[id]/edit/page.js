@@ -1,7 +1,7 @@
 "use client";
 
 import { useGlobalContext } from "@/app/context/store";
-import Loading from "@/components/loading";
+// import Loading from "@/components/loading";
 import getUserData from "@/utils/getUserData";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -100,7 +100,8 @@ export default function Edit() {
   };
 
   if (loading) {
-    return <Loading />;
+    // return <Loading />;
+    return <div className="container"></div>;
   } else {
     return (
       <div className="container">

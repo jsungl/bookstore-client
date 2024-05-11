@@ -1,6 +1,6 @@
 "use client";
 
-import Loading from "@/components/loading";
+// import Loading from "@/components/loading";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -50,7 +50,8 @@ export default function Book() {
   };
 
   if (loading) {
-    return <Loading />;
+    // return <Loading />;
+    return <div className="container"></div>;
   } else {
     return (
       <>

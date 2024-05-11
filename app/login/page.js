@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useGlobalContext } from "../context/store";
-import Loading from "@/components/loading";
+// import Loading from "@/components/loading";
 
 export default function Login() {
   const [loading, setLoading] = useState(true);
@@ -59,7 +59,8 @@ export default function Login() {
   };
 
   if (loading) {
-    return <Loading />;
+    // return <Loading />;
+    return <div className="container"></div>;
   } else {
     return (
       <div className="container h-100">

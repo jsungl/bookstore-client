@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import Loading from "@/components/loading";
+// import Loading from "@/components/loading";
 import { useGlobalContext } from "../context/store";
 
 export default function MyPage() {
@@ -74,7 +74,8 @@ export default function MyPage() {
   }
 
   if (loading) {
-    return <Loading />;
+    // return <Loading />;
+    return <div className="container"></div>;
   } else {
     return (
       <>
