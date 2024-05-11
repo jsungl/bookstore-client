@@ -229,7 +229,7 @@ export default function Register() {
               <input
                 type="text"
                 className={
-                  isError && (errorField || errorField.nickname)
+                  isError && errorField.nickname
                     ? "form-control is-invalid"
                     : "form-control"
                 }

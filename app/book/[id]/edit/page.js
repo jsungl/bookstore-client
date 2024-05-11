@@ -36,7 +36,7 @@ export default function Edit() {
     } else {
       let author = result.data.book.sellerId;
       if (author !== user.id) {
-        alert("You do not have access.");
+        alert("You do not have permission to access this content.");
         router.replace("/", { scroll: false });
       } else {
         setTitle(result.data.book.title);
@@ -49,20 +49,16 @@ export default function Edit() {
   }
 
   useEffect(() => {
-    // fetchBook();
-    // setLoading(false);
-
     async function fetchUser() {
       const data = await getUserData();
       if (!data.success) {
         alert(
-          "You do not have permission to access this page. Please log in and try again."
+          "You are not authorized to view this page. Please log in to continue."
         );
         setUser({});
         router.push("/", { scroll: false });
       }
     }
-
     Object.keys(user).length !== 0 && fetchUser();
     fetchBook();
     setLoading(false);
@@ -137,7 +133,7 @@ export default function Edit() {
                   <input
                     type="text"
                     className={
-                      alert && errorField.title
+                      isError && errorField.title
                         ? "form-control is-invalid"
                         : "form-control"
                     }
@@ -162,7 +158,7 @@ export default function Edit() {
                   </label>
                   <textarea
                     className={
-                      alert && errorField.description
+                      isError && errorField.description
                         ? "form-control is-invalid"
                         : "form-control"
                     }
@@ -189,7 +185,7 @@ export default function Edit() {
                   <input
                     type="text"
                     className={
-                      alert && errorField.imageUrl
+                      isError && errorField.imageUrl
                         ? "form-control is-invalid"
                         : "form-control"
                     }
@@ -217,7 +213,7 @@ export default function Edit() {
                     <input
                       type="number"
                       className={
-                        alert && errorField.price
+                        isError && errorField.price
                           ? "form-control is-invalid"
                           : "form-control"
                       }
