@@ -2,7 +2,7 @@
 
 import Card from "@/components/card";
 import { useEffect, useState } from "react";
-import Loading from "@/components/loading";
+// import Loading from "@/components/loading";
 import Header from "@/components/header";
 import Footer from "@/components/footer";
 
@@ -33,7 +33,14 @@ export default function Home() {
   }
 
   if (loading) {
-    return <Loading />;
+    // return <Loading />;
+    return (
+      <div className="container">
+        <div className="d-flex justify-content-center">
+          <p>Loading...</p>
+        </div>
+      </div>
+    );
   } else {
     return (
       <>
