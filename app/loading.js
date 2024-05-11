@@ -1,11 +1,13 @@
-
 export default function Loading() {
-    return (
-        <div className="container">
-            <div className="d-flex justify-content-center">
-                <p>Loading...</p>
-            </div>
-        </div>
-        
-    )
+  return (
+    <div className="container">
+      <div className="d-flex justify-content-center">
+        <p>Loading...</p>
+      </div>
+    </div>
+
+    // <div className="loading">
+    //   <p>Loading...</p>
+    // </div>
+  );
 }
