@@ -52,7 +52,7 @@ export default function Card(props) {
           className="d-flex justify-content-center"
           style={{ background: "#eee" }}
         >
-          <Link href={`/book/${bookId}`}>
+          <Link href={`/book/${bookId}`} scroll={false}>
             <img
               src={bookImageUrl}
               className="bd-img card-img-top p-3"
@@ -70,6 +70,7 @@ export default function Card(props) {
               <Link
                 href={`/book/${bookId}`}
                 className="text-decoration-none link-dark"
+                scroll={false}
               >
                 <h5 className="card-title">{bookTitle}</h5>
               </Link>
