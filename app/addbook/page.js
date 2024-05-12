@@ -5,6 +5,7 @@ import getUserData from "@/utils/getUserData";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useGlobalContext } from "../context/store";
+import addForm from "./actions";
 
 export default function AddBook() {
   const [title, setTitle] = useState("");
@@ -69,7 +70,8 @@ export default function AddBook() {
       setErrorField(error.errorField);
     } else {
       let bookId = result.data.book.bookId;
-      router.push("/book/" + bookId);
+      await addForm(bookId);
+      router.push("/book/" + bookId, { scroll: false });
     }
   }
 

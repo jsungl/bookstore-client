@@ -5,6 +5,7 @@ import { useGlobalContext } from "@/app/context/store";
 import getUserData from "@/utils/getUserData";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import editForm from "../actions";
 
 export default function Edit() {
   const params = useParams();
@@ -91,6 +92,7 @@ export default function Edit() {
       setMessage(error.errorMessage);
       setErrorField(error.errorField);
     } else {
+      await editForm(params.id);
       router.push("/book/" + params.id, { scroll: false });
     }
   }
