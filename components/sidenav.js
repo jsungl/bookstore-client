@@ -25,6 +25,7 @@ export default function SideNav({ hasToken }) {
     const result = await response.json();
     if (result.success) {
       setUser(result.data.member);
+      setLoading(false);
     } else {
       router.push("/", { scroll: false });
     }
@@ -34,8 +35,9 @@ export default function SideNav({ hasToken }) {
     console.log("sideNav 렌더링");
     if (hasToken && Object.keys(user).length === 0) {
       fetchUser();
+    } else {
+      setLoading(false);
     }
-    setLoading(false);
   }, []);
 
   async function onLogoutButtonHandler() {
