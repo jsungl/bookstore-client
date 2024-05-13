@@ -105,7 +105,7 @@ export default function Login() {
                   onChange={handleChange}
                   required
                 />
-                <label htmlFor="floatingInput">ID</label>
+                <label htmlFor="username">ID</label>
               </div>
               <div className="form-floating">
                 {/* <input type="password" className="form-control" id="password" name="password" placeholder="Password" value={user.password} onChange={handleChange}/> */}
@@ -123,7 +123,7 @@ export default function Login() {
                   onChange={handleChange}
                   required
                 />
-                <label htmlFor="floatingPassword">Password</label>
+                <label htmlFor="password">Password</label>
               </div>
 
               <div className="form-check text-start my-3">

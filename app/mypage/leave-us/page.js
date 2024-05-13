@@ -135,7 +135,7 @@ export default function LeaveUs() {
                     onChange={handleChange}
                     required
                   />
-                  <label htmlFor="floatingPassword">Password</label>
+                  <label htmlFor="password">Password</label>
                 </div>
 
                 <button
