@@ -5,9 +5,5 @@ export default function Loading() {
         <p>Loading...</p>
       </div>
     </div>
-
-    // <div className="loading">
-    //   <p>Loading...</p>
-    // </div>
   );
 }

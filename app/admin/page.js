@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-// import Loading from "@/components/loading";
 import { useGlobalContext } from "../context/store";
 
 export default function Admin() {
@@ -84,7 +83,6 @@ export default function Admin() {
   };
 
   if (loading) {
-    // return <Loading />;
     return <div className="container"></div>;
   } else {
     return (

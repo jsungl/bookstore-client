@@ -13,7 +13,6 @@ export default function SideNav({ hasToken }) {
   const router = useRouter();
 
   async function fetchUser() {
-    console.log("내 정보 요청!");
     const response = await fetch("/api/members/me", {
       method: "GET",
       credentials: "include",
@@ -25,14 +24,14 @@ export default function SideNav({ hasToken }) {
     const result = await response.json();
     if (result.success) {
       setUser(result.data.member);
-      setLoading(false);
     } else {
+      setUser({});
       router.push("/", { scroll: false });
     }
+    setLoading(false);
   }
 
   useEffect(() => {
-    console.log("sideNav 렌더링");
     if (hasToken && Object.keys(user).length === 0) {
       fetchUser();
     } else {

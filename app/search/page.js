@@ -1,7 +1,6 @@
 "use client";
 
 import Card from "@/components/card";
-// import Loading from "@/components/loading";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -15,10 +14,6 @@ export default function Search() {
 
   const searchParams = useSearchParams();
   const keyword = searchParams.get("query");
-
-  // useEffect(() => {
-  //   setLoading(false);
-  // }, []);
 
   async function findBooks() {
     const response = await fetch(`/api/books?query=${keyword}`, {
@@ -50,7 +45,6 @@ export default function Search() {
   }
 
   if (loading) {
-    // return <Loading />;
     return <div className="container"></div>;
   } else {
     return (

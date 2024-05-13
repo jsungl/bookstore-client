@@ -2,7 +2,6 @@
 
 import Card from "@/components/card";
 import { useEffect, useState } from "react";
-// import Loading from "@/components/loading";
 import Header from "@/components/header";
 import Footer from "@/components/footer";
 import getUserData from "@/utils/getUserData";
@@ -17,21 +16,21 @@ export default function Home() {
   const { user, setUser } = useGlobalContext();
   const router = useRouter();
 
-  // useEffect(() => {
-  //   fetch("/api/books", {
-  //     method: "GET",
-  //     credentials: "include",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //   })
-  //     .then((res) => res.json())
-  //     .then((res) => {
-  //       setBookList(res.data.books);
-  //       setIsFetch(true);
-  //     });
-  //   setLoading(false);
-  // }, [refresh]);
+  async function fetchBooks() {
+    await fetch("/api/books", {
+      method: "GET",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        setBookList(res.data.books);
+        setIsFetch(true);
+        setLoading(false);
+      });
+  }
 
   useEffect(() => {
     async function fetchUser() {
@@ -39,29 +38,16 @@ export default function Home() {
       if (!data.success) {
         setUser({});
         router.refresh();
+      } else {
+        await fetchBooks();
       }
-    }
-
-    async function fetchBooks() {
-      await fetch("/api/books", {
-        method: "GET",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-        .then((res) => res.json())
-        .then((res) => {
-          setBookList(res.data.books);
-          setIsFetch(true);
-        });
     }
 
     if (Object.keys(user).length !== 0) {
       fetchUser();
+    } else {
+      fetchBooks();
     }
-    fetchBooks();
-    setLoading(false);
   }, [refresh]);
 
   function isRefreshRequired() {
@@ -69,7 +55,6 @@ export default function Home() {
   }
 
   if (loading) {
-    // return <Loading />;
     return (
       <div className="container">
         <div className="d-flex justify-content-center">

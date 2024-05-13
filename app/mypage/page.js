@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-// import Loading from "@/components/loading";
 import { useGlobalContext } from "../context/store";
 
 export default function MyPage() {

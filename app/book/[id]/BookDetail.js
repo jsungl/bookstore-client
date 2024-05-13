@@ -1,12 +1,11 @@
 "use client";
 
-import { useParams, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function BookDetail(props) {
   const { data } = props;
 
-  const params = useParams();
   const router = useRouter();
   const [book, setBook] = useState({});
   const [isError, setIsError] = useState(false);
@@ -39,7 +38,6 @@ export default function BookDetail(props) {
   };
 
   if (loading) {
-    // return <Loading />;
     return <div className="container"></div>;
   } else {
     return (

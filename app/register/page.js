@@ -1,6 +1,5 @@
 "use client";
 
-// import Loading from "@/components/loading";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useGlobalContext } from "../context/store";
@@ -19,16 +18,9 @@ export default function Register() {
   const [errorField, setErrorField] = useState({});
   const [loading, setLoading] = useState(true);
   const router = useRouter();
-  const { user, setUser } = useGlobalContext();
 
   useEffect(() => {
-    if (Object.keys(user).length !== 0) {
-      // alert("You do not have access.");
-      // router.replace("/", { scroll: false });
-      setUser({});
-    } else {
-      setLoading(false);
-    }
+    setLoading(false);
   }, []);
 
   async function onSubmitHandler(e) {
@@ -78,7 +70,6 @@ export default function Register() {
   };
 
   if (loading) {
-    // return <Loading />;
     return <div className="container"></div>;
   } else {
     return (

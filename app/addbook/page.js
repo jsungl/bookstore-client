@@ -1,6 +1,5 @@
 "use client";
 
-// import Loading from "@/components/loading";
 import getUserData from "@/utils/getUserData";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -25,11 +24,15 @@ export default function AddBook() {
     async function fetchUser() {
       const data = await getUserData();
       if (!data.success) {
-        alert(
-          "You do not have permission to access this page. Please log in and try again."
-        );
-        setUser({});
-        router.push("/", { scroll: false });
+        if (data.data.error.errorCode.startsWith("E401")) {
+          alert(
+            "You are not authorized to view this page. Please log in to continue."
+          );
+          setUser({});
+          router.push("/", { scroll: false });
+        } else {
+          throw new Error(data.data.error.errorMessage);
+        }
       } else {
         setLoading(false);
       }
@@ -76,7 +79,6 @@ export default function AddBook() {
 
   if (loading) {
     return <div className="container"></div>;
-    // return <Loading />;
   } else {
     return (
       <>

@@ -3,7 +3,6 @@
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useGlobalContext } from "../context/store";
-// import Loading from "@/components/loading";
 
 export default function Login() {
   const [loading, setLoading] = useState(true);
@@ -13,12 +12,9 @@ export default function Login() {
   const [errorField, setErrorField] = useState("");
   const router = useRouter();
 
-  const { user, setUser } = useGlobalContext();
+  const { setUser } = useGlobalContext();
 
   useEffect(() => {
-    if (user) {
-      setUser({});
-    }
     setLoading(false);
   }, []);
 
@@ -38,7 +34,6 @@ export default function Login() {
 
     if (!result.success) {
       let error = result.data.error;
-      //console.log(error);
       setIsError(true);
       setMessage(error.errorMessage);
       setErrorField(error.errorField);
@@ -59,7 +54,6 @@ export default function Login() {
   };
 
   if (loading) {
-    // return <Loading />;
     return <div className="container"></div>;
   } else {
     return (
@@ -90,7 +84,6 @@ export default function Login() {
               <h1 className="h3 mb-3 fw-normal">Please sign in</h1>
 
               <div className="form-floating">
-                {/* <input type="text" className="form-control" id="username" name="username" placeholder="ID" value={user.username} onChange={handleChange}/> */}
                 <input
                   type="text"
                   className={

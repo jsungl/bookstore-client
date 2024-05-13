@@ -1,7 +1,6 @@
 "use client";
 
 import { useGlobalContext } from "@/app/context/store";
-// import Loading from "@/components/loading";
 import getUserData from "@/utils/getUserData";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -19,9 +18,9 @@ export default function Edit() {
   const [errorField, setErrorField] = useState({});
   const [loading, setLoading] = useState(true);
   const [isFetch, setIsFetch] = useState(false);
-  const { user, setUser } = useGlobalContext();
+  const { setUser } = useGlobalContext();
 
-  async function fetchBook() {
+  async function fetchBook(id) {
     const res = await fetch(`/api/books/${params.id}`, {
       method: "GET",
       credentials: "include",
@@ -36,7 +35,7 @@ export default function Edit() {
       setMessage(result.data.error.errorMessage);
     } else {
       let author = result.data.book.sellerId;
-      if (author !== user.id) {
+      if (author !== id) {
         alert("You do not have permission to access this content.");
         router.replace("/", { scroll: false });
       } else {
@@ -45,6 +44,7 @@ export default function Edit() {
         setImageUrl(result.data.book.imageUrl);
         setPrice(result.data.book.price);
         setIsFetch(true);
+        setLoading(false);
       }
     }
   }
@@ -53,16 +53,22 @@ export default function Edit() {
     async function fetchUser() {
       const data = await getUserData();
       if (!data.success) {
-        alert(
-          "You are not authorized to view this page. Please log in to continue."
-        );
-        setUser({});
-        router.push("/", { scroll: false });
+        if (data.data.error.errorCode.startsWith("E401")) {
+          alert(
+            "You are not authorized to view this page. Please log in to continue."
+          );
+          setUser({});
+          router.push("/", { scroll: false });
+        } else {
+          setIsError(true);
+          setMessage(data.data.error.errorMessage);
+        }
+      } else {
+        let userId = data.data.member.id;
+        await fetchBook(userId);
       }
     }
-    Object.keys(user).length !== 0 && fetchUser();
-    fetchBook();
-    setLoading(false);
+    fetchUser();
   }, []);
 
   async function onSubmitHandler(e) {
@@ -102,7 +108,6 @@ export default function Edit() {
   };
 
   if (loading) {
-    // return <Loading />;
     return <div className="container"></div>;
   } else {
     return (

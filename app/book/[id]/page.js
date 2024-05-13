@@ -1,5 +1,3 @@
-// import Loading from "@/components/loading";
-
 import BookDetail from "./BookDetail";
 
 async function fetchBook(id) {
