@@ -16,9 +16,9 @@ export default function Search() {
   const searchParams = useSearchParams();
   const keyword = searchParams.get("query");
 
-  useEffect(() => {
-    setLoading(false);
-  }, []);
+  // useEffect(() => {
+  //   setLoading(false);
+  // }, []);
 
   async function findBooks() {
     const response = await fetch(`/api/books?query=${keyword}`, {
@@ -42,6 +42,7 @@ export default function Search() {
 
   useEffect(() => {
     findBooks();
+    setLoading(false);
   }, [refresh, keyword]);
 
   function isRefreshRequired() {

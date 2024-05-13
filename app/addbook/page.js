@@ -17,12 +17,11 @@ export default function AddBook() {
   const [errorField, setErrorField] = useState({});
   const [loading, setLoading] = useState(true);
 
-  const { user, setUser } = useGlobalContext();
+  const { setUser } = useGlobalContext();
 
   const router = useRouter();
 
   useEffect(() => {
-    console.log("AddBook 렌더링");
     async function fetchUser() {
       const data = await getUserData();
       if (!data.success) {
@@ -35,10 +34,6 @@ export default function AddBook() {
         setLoading(false);
       }
     }
-
-    // if (Object.keys(user).length === 0) {
-    //   fetchUser();
-    // }
     fetchUser();
   }, []);
 
