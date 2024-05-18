@@ -1,5 +1,13 @@
 const getUserData = async () => {
-  const response = await fetch("/api/members/me", {
+  // const response = await fetch("/api/members/me", {
+  //   method: "GET",
+  //   credentials: "include",
+  //   headers: {
+  //     "Content-Type": "application/json",
+  //   },
+  // });
+
+  const response = await fetch(`${process.env.API_URL}/api/members/me`, {
     method: "GET",
     credentials: "include",
     headers: {
