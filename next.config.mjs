@@ -4,6 +4,7 @@ const apiUrl = process.env.API_URL;
 
 const nextConfig = {
   reactStrictMode: false,
+  output: "standalone",
   async rewrites() {
     return [
       {
