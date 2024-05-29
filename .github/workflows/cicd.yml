@@ -46,7 +46,7 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           script_stop: true
           script: |
-            sudo docker cp nginxserver:/env/nginx/conf.d/service-env.inc ./service-env.inc
+            sudo docker exec -i nginxserver sh -c 'cat /env/nginx/conf.d/service-env.inc' > service-env.inc
         env:
           CONTAINER_NAME: nginxserver
 
