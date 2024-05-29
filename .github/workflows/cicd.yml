@@ -49,7 +49,13 @@ jobs:
           script: |
             STATUS=$(sudo docker exec -i nginxserver bash -c 'grep -oP "(?<=set \$service_url ).*(?=;)" /etc/nginx/conf.d/service-env.inc')
             echo "STATUS: $STATUS"
-            echo "CURRENT_UPSTREAM=$STATUS" >> $GITHUB_ENV
+            echo "CURRENT_UPSTREAM=$STATUS" > /tmp/status.txt
+
+      - name: Get current upstream from remote
+        run: |
+          scp -i ${{ secrets.EC2_SSH_KEY }} ubuntu@${{ secrets.LIVE_SERVER_IP }}:/tmp/status.txt .
+          source status.txt
+          echo "CURRENT_UPSTREAM=$CURRENT_UPSTREAM" >> $GITHUB_ENV
     
       # Target IP 설정
       - name: Set target IP
