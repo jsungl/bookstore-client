@@ -48,6 +48,7 @@ jobs:
           script_stop: true
           script: |
             STATUS=$(sudo docker exec -i nginxserver bash -c 'grep -oP "(?<=set \$service_url ).*(?=;)" /etc/nginx/conf.d/service-env.inc')
+            echo "STATUS: $STATUS"
             echo "CURRENT_UPSTREAM=$STATUS" >> $GITHUB_ENV
     
       # Target IP 설정
