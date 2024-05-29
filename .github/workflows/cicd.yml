@@ -40,26 +40,32 @@ jobs:
     
       # Target IP 설정
       - name: Set target IP
-        run: |
-          CONTAINER_NAME=$(sudo docker ps --format '{{.Names}}' | grep -E 'alpha|beta')
-
-          if [ -n "$CONTAINER_NAME" ]; then
-            echo "Current Container Name: $CONTAINER_NAME"
-            echo "CURRENT_UPSTREAM: $CONTAINER_NAME"
-          else
-            CURRENT_UPSTREAM=beta
-          fi
-          
-          echo CURRENT_UPSTREAM=$CURRENT_UPSTREAM >> $GITHUB_ENV
-          if [ $CURRENT_UPSTREAM = alpha ]; then
-            echo "CURRENT_PORT=3000" >> $GITHUB_ENV
-            echo "STOPPED_PORT=3001" >> $GITHUB_ENV
-            echo "TARGET_UPSTREAM=beta" >> $GITHUB_ENV
-          else
-            echo "CURRENT_PORT=3001" >> $GITHUB_ENV
-            echo "STOPPED_PORT=3000" >> $GITHUB_ENV
-            echo "TARGET_UPSTREAM=alpha" >> $GITHUB_ENV
-          fi
+        uses: appleboy/ssh-action@master
+        with:
+          username: ubuntu
+          host: ${{ secrets.LIVE_SERVER_IP }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script_stop: true
+          script: |
+            CONTAINER_NAME=$(sudo docker ps --format '{{.Names}}' | grep -E 'alpha|beta')
+  
+            if [ -n "$CONTAINER_NAME" ]; then
+              echo "Current Container Name: $CONTAINER_NAME"
+              echo "CURRENT_UPSTREAM: $CONTAINER_NAME"
+            else
+              CURRENT_UPSTREAM=beta
+            fi
+            
+            echo CURRENT_UPSTREAM=$CURRENT_UPSTREAM >> $GITHUB_ENV
+            if [ $CURRENT_UPSTREAM = alpha ]; then
+              echo "CURRENT_PORT=3000" >> $GITHUB_ENV
+              echo "STOPPED_PORT=3001" >> $GITHUB_ENV
+              echo "TARGET_UPSTREAM=beta" >> $GITHUB_ENV
+            else
+              echo "CURRENT_PORT=3001" >> $GITHUB_ENV
+              echo "STOPPED_PORT=3000" >> $GITHUB_ENV
+              echo "TARGET_UPSTREAM=alpha" >> $GITHUB_ENV
+            fi
 
       # Docker Compose 실행    
       - name: Docker compose
