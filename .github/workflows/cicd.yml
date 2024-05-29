@@ -37,9 +37,8 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
-    
-      # Target IP 설정
-      - name: Set target IP
+
+      - name: Copy service-env.inc file from nginx container
         uses: appleboy/ssh-action@master
         with:
           username: ubuntu
@@ -47,23 +46,27 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           script_stop: true
           script: |
-            CONTAINER_NAME=$(sudo docker ps --format '{{.Names}}' | grep -E 'alpha|beta')
-            if [ -n "$CONTAINER_NAME" ]; then
-              echo "Current Container Name: $CONTAINER_NAME"
-              echo "CURRENT_UPSTREAM: $CONTAINER_NAME"
-            else
-              CURRENT_UPSTREAM=beta
-            fi
-            echo CURRENT_UPSTREAM=$CURRENT_UPSTREAM >> $GITHUB_ENV
-            if [ $CURRENT_UPSTREAM = alpha ]; then
-              echo "CURRENT_PORT=3000" >> $GITHUB_ENV
-              echo "STOPPED_PORT=3001" >> $GITHUB_ENV
-              echo "TARGET_UPSTREAM=beta" >> $GITHUB_ENV
-            else
-              echo "CURRENT_PORT=3001" >> $GITHUB_ENV
-              echo "STOPPED_PORT=3000" >> $GITHUB_ENV
-              echo "TARGET_UPSTREAM=alpha" >> $GITHUB_ENV
-            fi
+            sudo docker cp nginxserver:/env/nginx/conf.d/service-env.inc ./service-env.inc
+        env:
+          CONTAINER_NAME: nginxserver
+
+      - name: Extract service_url from service-env.inc and set as CURRENT_UPSTREAM
+        run: |
+          SERVICE_URL=$(grep "service_url" ./service-env.inc | cut -d" " -f2 | tr -d ';')
+          echo "CURRENT_UPSTREAM=${SERVICE_URL}" >> $GITHUB_ENV
+    
+      # Target IP 설정
+      - name: Set target IP
+        run: |
+          if [ $CURRENT_UPSTREAM = alpha ]; then
+            echo "CURRENT_PORT=3000" >> $GITHUB_ENV
+            echo "STOPPED_PORT=3001" >> $GITHUB_ENV
+            echo "TARGET_UPSTREAM=beta" >> $GITHUB_ENV
+          else
+            echo "CURRENT_PORT=3001" >> $GITHUB_ENV
+            echo "STOPPED_PORT=3000" >> $GITHUB_ENV
+            echo "TARGET_UPSTREAM=alpha" >> $GITHUB_ENV
+          fi
 
       # Docker Compose 실행    
       - name: Docker compose
