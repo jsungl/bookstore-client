@@ -41,13 +41,11 @@ jobs:
       # Target IP 설정
       - name: Set target IP
         run: |
-          STATUS=$(curl -o /dev/null -w "%{http_code}" "http://${{ secrets.LIVE_SERVER_IP }}/api/hc/env")
-          echo "STATUS: $STATUS"
-          echo $STATUS
-          
-          if [ $STATUS = 200 ]; then
-            CURRENT_UPSTREAM=$(curl -s "http://${{ secrets.LIVE_SERVER_IP }}/api/hc/env")
-            echo "CURRENT_UPSTREAM: $CURRENT_UPSTREAM"
+          CONTAINER_NAME=$(sudo docker ps --format '{{.Names}}' | grep -E 'alpha|beta')
+
+          if [ -n "$CONTAINER_NAME" ]; then
+            echo "Current Container Name: $CONTAINER_NAME"
+            echo "CURRENT_UPSTREAM: $CONTAINER_NAME"
           else
             CURRENT_UPSTREAM=beta
           fi
