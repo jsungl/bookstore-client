@@ -3,8 +3,12 @@ name: Deploy next.js application to AWS EC2
 on:
   push:
     branches: [ "main" ]
+    paths:
+      - 'app/**'
   pull_request:
     branches: [ "main" ]
+    paths:
+      - 'app/**'
 
 jobs:
   build:
@@ -53,8 +57,8 @@ jobs:
       - name: Extract service_url from service-env.inc and set as CURRENT_UPSTREAM
         run: |
           SERVICE_URL=$(grep "service_url" service-env.inc | cut -d" " -f2 | tr -d ';')
-          echo "CURRENT_UPSTREAM:$SERVICE_URL"
-          echo "CURRENT_UPSTREAM=${SERVICE_URL}" >> $GITHUB_ENV
+          echo CURRENT_UPSTREAM=$SERVICE_URL >> $GITHUB_ENV
+          echo "CURRENT_UPSTREAM:${{env.CURRENT_UPSTREAM}}"
     
       # Target IP 설정
       - name: Set target IP
