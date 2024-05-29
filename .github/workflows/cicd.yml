@@ -38,10 +38,22 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-      - name: Get service_url from nginx container
+      # nginx 컨테이너의 service-env.inc 파일을 로컬로 복사
+      - name: Copy service-env.inc file from nginx container
+        uses: appleboy/ssh-action@master
+        with:
+          username: ubuntu
+          host: ${{ secrets.LIVE_SERVER_IP }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script_stop: true
+          script: |
+            docker exec -i nginxserver sh -c 'cat /etc/nginx/conf.d/service-env.inc' > service-env.inc
+      
+      # CURRENT_UPSTREAM 환경변수 설정
+      - name: Extract service_url from service-env.inc and set as CURRENT_UPSTREAM
         run: |
-          SERVICE_URL=$(sudo docker exec nginxserver sh -c 'grep "service_url" /etc/nginx/conf.d/service-env.inc | cut -d" " -f2' | tr -d ';')
-          echo "SERVICE_URL:$SERVICE_URL"
+          SERVICE_URL=$(grep "service_url" service-env.inc | cut -d" " -f2 | tr -d ';')
+          echo "CURRENT_UPSTREAM:$SERVICE_URL"
           echo "CURRENT_UPSTREAM=${SERVICE_URL}" >> $GITHUB_ENV
     
       # Target IP 설정
