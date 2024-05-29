@@ -47,7 +47,7 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           script_stop: true
           script: |
-            docker exec -i nginxserver sh -c 'cat /etc/nginx/conf.d/service-env.inc' > service-env.inc
+            sudo docker exec -i nginxserver sh -c 'cat /etc/nginx/conf.d/service-env.inc' > service-env.inc
       
       # CURRENT_UPSTREAM 환경변수 설정
       - name: Extract service_url from service-env.inc and set as CURRENT_UPSTREAM
