@@ -38,21 +38,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-      - name: Copy service-env.inc file from nginx container
-        uses: appleboy/ssh-action@master
-        with:
-          username: ubuntu
-          host: ${{ secrets.LIVE_SERVER_IP }}
-          key: ${{ secrets.EC2_SSH_KEY }}
-          script_stop: true
-          script: |
-            sudo docker exec -i nginxserver sh -c 'cat /etc/nginx/conf.d/service-env.inc' > service-env.inc
-        env:
-          CONTAINER_NAME: nginxserver
-
-      - name: Extract service_url from service-env.inc and set as CURRENT_UPSTREAM
+      - name: Get service_url from nginx container
         run: |
-          SERVICE_URL=$(grep "service_url" ./service-env.inc | cut -d" " -f2 | tr -d ';')
+          SERVICE_URL=$(sudo docker exec nginxserver sh -c 'grep "service_url" /etc/nginx/conf.d/service-env.inc | cut -d" " -f2' | tr -d ';')
+          echo "SERVICE_URL:$SERVICE_URL"
           echo "CURRENT_UPSTREAM=${SERVICE_URL}" >> $GITHUB_ENV
     
       # Target IP 설정
