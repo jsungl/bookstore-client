@@ -19,7 +19,6 @@ RUN \
 # Rebuild the source code only when needed
 FROM base AS builder
 WORKDIR /app
-ARG ENV
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
@@ -37,10 +36,11 @@ RUN \
 
 # Production image, copy all the files and run next
 FROM base AS runner
-ARG ENV
 WORKDIR /app
 
+ARG ENV
 ENV NODE_ENV production
+
 # Uncomment the following line in case you want to disable telemetry during runtime.
 # ENV NEXT_TELEMETRY_DISABLED 1
 
@@ -64,4 +64,4 @@ USER nextjs
 # https://nextjs.org/docs/pages/api-reference/next-config-js/output
 
 # CMD HOSTNAME="0.0.0.0" node server.js
-CMD ["sh", "-c", "HOSTNAME='0.0.0.0' ENV='${ENV}' node server.js"]
+CMD ["sh", "-c", "HOSTNAME='0.0.0.0' ENV=${ENV} node server.js"]
