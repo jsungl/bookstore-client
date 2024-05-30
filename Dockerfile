@@ -39,7 +39,8 @@ FROM base AS runner
 WORKDIR /app
 
 ARG ENV
-ENV NODE_ENV production
+ENV NODE_ENV=production
+ENV ENV=${ENV}
 
 # Uncomment the following line in case you want to disable telemetry during runtime.
 # ENV NEXT_TELEMETRY_DISABLED 1
