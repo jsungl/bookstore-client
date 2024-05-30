@@ -3,8 +3,12 @@ name: Deploy next.js application to AWS EC2
 on:
   push:
     branches: [ "main" ]
+    paths:
+      - 'components/**'
   pull_request:
     branches: [ "main" ]
+    paths:
+      - 'components/**'
 
 jobs:
   build:
@@ -27,8 +31,11 @@ jobs:
         password: ${{ secrets.DOCKERHUB_TOKEN }}
     
     # Docker image build
+    # - name: Build the Docker image
+    # run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/bookstore-client .
+
     - name: Build the Docker image
-      run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/bookstore-client .
+      run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/bookstore-client --build-arg API_URL=${{ secrets.NEXT_API_URL }} --build-arg ENV=dev .  
 
     # DockerHub 이미지 푸시
     - name: docker hub push
