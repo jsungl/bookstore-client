@@ -19,6 +19,7 @@ RUN \
 # Rebuild the source code only when needed
 FROM base AS builder
 WORKDIR /app
+ARG ENV
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
@@ -36,6 +37,7 @@ RUN \
 
 # Production image, copy all the files and run next
 FROM base AS runner
+ARG ENV
 WORKDIR /app
 
 ENV NODE_ENV production
