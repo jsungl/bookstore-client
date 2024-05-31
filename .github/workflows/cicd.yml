@@ -3,8 +3,12 @@ name: Deploy next.js application to AWS EC2
 on:
   push:
     branches: [ "main" ]
+    paths:
+    - 'components/**'
   pull_request:
     branches: [ "main" ]
+    paths:
+    - 'components/**'
 
 jobs:
   build:
@@ -14,9 +18,26 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
 
+    - name: Check current server
+      run: |
+        STATUS=$(curl -o /dev/null -w "%{http_code}" "https://${{ secrets.DOMAIN }}/hc/env")
+        echo $STATUS
+        if [ $STATUS = 200 ]; then
+          CURRENT_UPSTREAM=$(curl -s "https://${{ secrets.DOMAIN }}/hc/env")
+          if [ "$CURRENT_UPSTREAM" = "alpha" ]; then
+            CURRENT_ENV=beta
+          elif [ "$CURRENT_UPSTREAM" = "beta" ]; then
+            CURRENT_ENV=alpha
+          fi
+        else
+          CURRENT_ENV=alpha
+        fi
+        echo CURRENT_ENV=$CURRENT_ENV >> $GITHUB_ENV
+
     - name: Create .env.production
       run: |
         echo "API_URL=${{ secrets.NEXT_API_URL }}" >> .env.production
+        echo "ENV=${{env.CURRENT_ENV}}" >> .env.production
 
     # DockerHub login
     - name: login to DockerHub
