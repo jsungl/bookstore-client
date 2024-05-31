@@ -20,8 +20,6 @@ RUN \
 FROM base AS builder
 WORKDIR /app
 
-ARG ENV
-ENV ENV=${ENV}
 
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
@@ -66,5 +64,5 @@ USER nextjs
 # server.js is created by next build from the standalone output
 # https://nextjs.org/docs/pages/api-reference/next-config-js/output
 
-# CMD HOSTNAME="0.0.0.0" node server.js
-CMD ["sh", "-c", "HOSTNAME='0.0.0.0' ENV=${ENV} node server.js"]
+CMD HOSTNAME="0.0.0.0" node server.js
+# CMD ["sh", "-c", "HOSTNAME='0.0.0.0' ENV=${ENV} node server.js"]
