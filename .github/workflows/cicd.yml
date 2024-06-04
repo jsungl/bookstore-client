@@ -3,8 +3,14 @@ name: Deploy next.js application to AWS EC2
 on:
   push:
     branches: [ "main" ]
+    paths-ignore:
+      - 'README.md'
+      - '.github/**'
   pull_request:
     branches: [ "main" ]
+    paths-ignore:
+      - 'README.md'
+      - '.github/**'
 
 jobs:
   build:
